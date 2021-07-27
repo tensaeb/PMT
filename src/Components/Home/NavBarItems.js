@@ -169,7 +169,10 @@ const NavBarItems = () => {
                   Contact-us
                 </Link>
               </Button>
-              <Button color="inherit">Login</Button>
+              <Link to="/login">
+                Sign in
+                <Button color="inherit">Login</Button>
+              </Link>
             </Menu>
           </div>
         )}

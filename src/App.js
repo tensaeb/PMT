@@ -1,18 +1,19 @@
 import "./App.css";
-import Navbar from "./Components/Home/Navbar";
-import Home from "./Components/Home/Sections/Home";
-// import About from "./Components/Home/Sections/About";
-// import Contact from "./Components/Home/Sections/Contact";
-// import Team from "./Components/Home/Sections/Team";
+
+import { BrowserRouter as BRoute, Route, Switch } from "react-router-dom";
+
+import Login from "./Pages/Login";
+import Landingpage from "./Pages/Landingpage";
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <Home />
-      {/* <About />
-      <Team />
-      <Contact /> */}
+      <BRoute>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/" component={Landingpage} />
+        </Switch>
+      </BRoute>
     </div>
   );
 }
