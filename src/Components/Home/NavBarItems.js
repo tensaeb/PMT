@@ -11,6 +11,7 @@ import {
 
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link, animateScroll as scroll } from "react-scroll";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +45,7 @@ const NavBarItems = () => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.up("sm"));
+  let history = useHistory();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -55,6 +57,10 @@ const NavBarItems = () => {
 
   const scrollToTop = () => {
     scroll.scrollToTop();
+  };
+
+  const handleClick = () => {
+    history.push("/login");
   };
 
   return (
@@ -102,7 +108,11 @@ const NavBarItems = () => {
                 </Link>
               </Button>
             </div>
-            <Button className={classes.menuButton} color="inherit">
+            <Button
+              className={classes.menuButton}
+              color="inherit"
+              onClick={handleClick}
+            >
               Login
             </Button>
           </>
@@ -169,10 +179,9 @@ const NavBarItems = () => {
                   Contact-us
                 </Link>
               </Button>
-              <Link to="/login">
-                Sign in
-                <Button color="inherit">Login</Button>
-              </Link>
+              <Button color="inherit" onClick={handleClick}>
+                Login
+              </Button>
             </Menu>
           </div>
         )}

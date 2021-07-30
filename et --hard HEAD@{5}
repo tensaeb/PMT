@@ -1,8 +1,0 @@
-[33m4d9e8ee[m[33m ([m[1;36mHEAD -> [m[1;32mfront[m[33m, [m[1;31morigin/front[m[33m)[m HEAD@{0}: checkout: moving from 7ad0429c3b2887703c18d89c80198c66b91a29d6 to front
-[33m7ad0429[m HEAD@{1}: commit: Added login Page
-[33m666a541[m[33m ([m[1;31morigin/back[m[33m)[m HEAD@{2}: pull --rebase --autostash (start): checkout 666a541fc35ee21d78c030e6e66059900a682701
-[33m4d9e8ee[m[33m ([m[1;36mHEAD -> [m[1;32mfront[m[33m, [m[1;31morigin/front[m[33m)[m HEAD@{3}: pull --rebase --autostash: updating HEAD
-[33m4d9e8ee[m[33m ([m[1;36mHEAD -> [m[1;32mfront[m[33m, [m[1;31morigin/front[m[33m)[m HEAD@{4}: commit: added login page
-[33m964490c[m HEAD@{5}: checkout: moving from front to front
-[33m964490c[m HEAD@{6}: Branch: renamed refs/heads/master to refs/heads/front
-[33m964490c[m HEAD@{8}: commit (initial): Initialize project using Create React App
