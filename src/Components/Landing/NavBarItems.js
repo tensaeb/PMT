@@ -7,6 +7,8 @@ import {
   IconButton,
   useTheme,
   useMediaQuery,
+  List,
+  ListItem,
 } from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
@@ -135,53 +137,54 @@ const NavBarItems = () => {
                 horizontal: "right",
               }}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
               open={open}
               onClose={handleClose}
               className={classes.mobileMenuItems}
             >
-              <Button color="inherit">
-                <Link
-                  className={classes.mobileMenuItems}
-                  activeClass="active"
-                  to="about"
-                  spy={true}
-                  smooth={true}
-                  duration={500}
-                >
-                  About-us
-                </Link>
-              </Button>
-              <Button color="inherit">
-                <Link
-                  className={classes.mobileMenuItems}
-                  activeClass="active"
-                  to="team"
-                  spy={true}
-                  smooth={true}
-                  duration={500}
-                >
-                  Team
-                </Link>
-              </Button>
-              <Button color="inherit">
-                <Link
-                  className={classes.mobileMenuItems}
-                  activeClass="active"
-                  to="contact"
-                  spy={true}
-                  smooth={true}
-                  duration={500}
-                >
-                  Contact-us
-                </Link>
-              </Button>
-              <Button color="inherit" onClick={handleClick}>
-                Login
-              </Button>
+              <List>
+                <ListItem button>
+                  <Link
+                    className={classes.mobileMenuItems}
+                    activeClass="active"
+                    to="about"
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                  >
+                    About-us
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link
+                    className={classes.mobileMenuItems}
+                    activeClass="active"
+                    to="team"
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                  >
+                    Team
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link
+                    className={classes.mobileMenuItems}
+                    activeClass="active"
+                    to="contact"
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                  >
+                    Contact-us
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link color="inherit" onClick={handleClick}>
+                    Login
+                  </Link>
+                </ListItem>
+              </List>
+              
             </Menu>
           </div>
         )}

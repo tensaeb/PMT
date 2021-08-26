@@ -1,10 +1,10 @@
 import React from "react";
+import { Link, Redirect } from "react-router-dom";
 import {
   Avatar,
   Button,
   CssBaseline,
   TextField,
-  Link,
   Paper,
   Grid,
   makeStyles,
@@ -51,7 +51,7 @@ const Registration = () => {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid className={classes.image} />
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -120,7 +120,7 @@ const Registration = () => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link to="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

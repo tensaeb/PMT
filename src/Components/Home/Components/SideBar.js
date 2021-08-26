@@ -10,7 +10,7 @@ import {
 
 import SidebarItems from "./SidebarItems";
 
-const drawerWidth = 245;
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -27,7 +27,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    marginTop: theme.spacing(14),
+  },
   drawerPaper: {
     width: drawerWidth,
   },

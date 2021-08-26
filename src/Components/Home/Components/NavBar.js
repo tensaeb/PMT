@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import {
   AppBar,
@@ -7,6 +8,8 @@ import {
   makeStyles,
   IconButton,
   Typography,
+  Tabs,
+  Tab,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -29,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = ({ onClick }) => {
   const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <div>
@@ -48,6 +56,15 @@ const NavBar = ({ onClick }) => {
             Responsive drawer
           </Typography>
         </Toolbar>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          // aria-label=" simple tabs example"
+        >
+          <Tab label="Home" component={Link} to="/home/index" />
+          <Tab label="Kanban" component={Link} to="/home/kanban" />
+          <Tab label="Calendar" component={Link} to="/home/calendar" />
+        </Tabs>
       </AppBar>
     </div>
   );

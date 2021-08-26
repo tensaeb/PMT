@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   List,
@@ -17,13 +17,16 @@ import {
   Switch,
 } from "@material-ui/core";
 
-import AvatarGroup from "@material-ui/lab/AvatarGroup";
-
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ImageIcon from "@material-ui/icons/Image";
 import StyledBadge from "./StyledBadge";
-import AssignmentIcon from "@material-ui/icons/Assignment";
+
 import AddIcon from "@material-ui/icons/Add";
+
+import AddTeamDialog from "../../Teams/AddTeamDialog";
+import Teams from "../../Teams/Teams";
+import Projects from "../../Projects/Projects";
+import AddProjectDialog from "../../Projects/AddProjectDialog";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -40,10 +43,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "capitalize",
     margin: "-5px 0px 0px 10px",
   },
-  small: {
-    width: theme.spacing(4),
-    height: theme.spacing(4),
-  },
+
   exsmall: {
     width: theme.spacing(7),
     height: theme.spacing(7),
@@ -56,8 +56,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SidebarItems = () => {
+const SidebarItems = (props) => {
   const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <div>
       <List dense>
@@ -116,62 +123,20 @@ const SidebarItems = () => {
         <Typography className={classes.menuButtons} variant="caption">
           PROJECTS
         </Typography>
-        <List dense>
-          {/* Project 1 */}
-
-          <ListItem button>
-            <ListItemAvatar>
-              <Avatar variant="rounded" className={classes.small}>
-                <AssignmentIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Dashboard UI Kit"></ListItemText>
-          </ListItem>
-
-          {/* Project 2 */}
-
-          <ListItem button>
-            <ListItemAvatar>
-              <Avatar variant="rounded" className={classes.small}>
-                <AssignmentIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="CRM System"></ListItemText>
-          </ListItem>
-
-          {/* Project 3 */}
-
-          <ListItem button>
-            <ListItemAvatar>
-              <Avatar variant="rounded" className={classes.small}>
-                <AssignmentIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Website Redesign"></ListItemText>
-          </ListItem>
-
-          {/* Project 4 */}
-
-          <ListItem button>
-            <ListItemAvatar>
-              <Avatar variant="rounded" className={classes.small}>
-                <AssignmentIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Communication Tool"></ListItemText>
-          </ListItem>
-        </List>
+        <Projects />
         <Button
           color="secondary"
           className={classes.button}
           style={{ backgroundColor: "transparent" }}
           disableRipple
+          onClick={() => handleClickOpen()}
         >
           <IconButton aria-label="add" size="small">
             <AddIcon color="secondary" fontSize="inherit" />
           </IconButton>
           Add Project
         </Button>
+        <AddProjectDialog open={open} setOpen={setOpen} />
       </Box>
 
       {/* Teams */}
@@ -180,97 +145,21 @@ const SidebarItems = () => {
         <Typography className={classes.menuButtons} variant="caption">
           TEAMS
         </Typography>
-        <List>
-          {/* Team 1 */}
-
-          <ListItem button>
-            <ListItemText primary="Designers"></ListItemText>
-            <ListItemSecondaryAction>
-              <IconButton edge="end" disabled>
-                <AvatarGroup max={3}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                  <Avatar
-                    alt="Travis Howard"
-                    src="/static/images/avatar/2.jpg"
-                  />
-                  <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                  <Avatar
-                    alt="Agnes Walker"
-                    src="/static/images/avatar/4.jpg"
-                  />
-                  <Avatar
-                    alt="Trevor Henderson"
-                    src="/static/images/avatar/5.jpg"
-                  />
-                </AvatarGroup>
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-
-          {/* Team 2 */}
-
-          <ListItem button>
-            <ListItemText primary="Backend"></ListItemText>
-            <ListItemSecondaryAction>
-              <IconButton edge="end" disabled>
-                <AvatarGroup max={3}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                  <Avatar
-                    alt="Travis Howard"
-                    src="/static/images/avatar/2.jpg"
-                  />
-                  {/* <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                  <Avatar
-                    alt="Agnes Walker"
-                    src="/static/images/avatar/4.jpg"
-                  />
-                  <Avatar
-                    alt="Trevor Henderson"
-                    src="/static/images/avatar/5.jpg"
-                  /> */}
-                </AvatarGroup>
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-
-          {/* Team 3 */}
-
-          <ListItem button>
-            <ListItemText primary="Frontend"></ListItemText>
-            <ListItemSecondaryAction>
-              <IconButton edge="end" disabled>
-                <AvatarGroup max={3}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                  <Avatar
-                    alt="Travis Howard"
-                    src="/static/images/avatar/2.jpg"
-                  />
-                  <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                  {/* <Avatar
-                    alt="Agnes Walker"
-                    src="/static/images/avatar/4.jpg"
-                  />
-                  <Avatar
-                    alt="Trevor Henderson"
-                    src="/static/images/avatar/5.jpg"
-                  /> */}
-                </AvatarGroup>
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        </List>
+        <Teams />
 
         <Button
           color="secondary"
           className={classes.button}
           style={{ backgroundColor: "transparent" }}
           disableRipple
+          onClick={() => handleClickOpen()}
         >
           <IconButton aria-label="add" size="small">
             <AddIcon color="secondary" fontSize="inherit" />
           </IconButton>
           Add Team
         </Button>
+        <AddTeamDialog open={open} setOpen={setOpen} />
       </Box>
       <FormControl component="fieldset" className={classes.darkmode}>
         <FormControlLabel

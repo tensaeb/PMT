@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { login } from "../actions/auth";
+
 import {
   Avatar,
   Button,
@@ -6,7 +10,6 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Paper,
   Grid,
   makeStyles,
@@ -48,8 +51,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const Login = ({ login }) => {
   const classes = useStyles();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = formData;
+
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    login(email, password);
+  };
+
+  // Is the user Authenticated??
+  //Redirect them to home page
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -63,7 +84,7 @@ const Login = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -72,6 +93,8 @@ const Login = () => {
               id="email"
               label="Email Address"
               name="email"
+              value={email}
+              onChange={(e) => onChange(e)}
               autoComplete="email"
               autoFocus
             />
@@ -85,6 +108,9 @@ const Login = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => onChange(e)}
+              // minLength="6"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -101,12 +127,12 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link to="/reset-password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
+                <Link to="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
@@ -118,4 +144,8 @@ const Login = () => {
   );
 };
 
-export default Login;
+// const mapStateToProps = (state) => ({
+//   //is Authenticated
+// });
+
+export default connect(null, { login })(Login);
