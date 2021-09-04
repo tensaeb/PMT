@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core";
 
 import NavBar from "../../Components/Home/Components/NavBar";
 import SideBar from "../../Components/Home/Components/SideBar";
-import Main from "./TasksPage";
 
 const drawerWidth = 240;
 

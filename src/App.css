@@ -3,6 +3,11 @@
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
+  zoom: 0.8;
+  /* -moz-transform: scale(1);
+  -moz-transform-origin: 0 0; */
+
+  scroll-behavior: smooth;
 }
 
 .nav-item .active {

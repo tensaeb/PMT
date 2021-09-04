@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
+import { connect } from "react-redux";
 import {
   Dialog,
   DialogActions,
@@ -16,7 +17,8 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { createProject, retrieveProjects } from "../../actions/projects";
+import { updateProjects, retrieveProjects } from "../../actions/projects";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   sdm: {
@@ -24,35 +26,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddProjectDialog = ({
+const UpdateProjectDialog = ({
   Open,
   setopen,
-  createProject,
-  // retrieveProjects,
+  updateProjects,
+  retrieveProjects,
+  current,
 }) => {
   const classes = useStyles();
-  const [formData, setFormData] = useState({
-    name: "",
-    sdm: "",
-  });
-
-  const { name, sdm } = formData;
-
-  const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [name, setName] = useState("");
+  const [sdm, setSDM] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProject(name, sdm);
-    // retrieveProjects();
 
-    // console.log(name, sdm);
+    const updProj = {
+      id: current.id,
+      name,
+      sdm,
+    };
+
+    <Redirect to="/home" />;
+    updateProjects(updProj.id, updProj);
   };
 
   const handleClose = () => {
     setopen(false);
   };
+
+  useEffect(() => {
+    retrieveProjects();
+
+    if (current) {
+      setName(current.name);
+      setSDM(current.sdm);
+    }
+  }, [current]);
 
   return (
     <div>
@@ -63,19 +72,18 @@ const AddProjectDialog = ({
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Add Project </DialogTitle>
+        <DialogTitle id="form-dialog-title">Update Project </DialogTitle>
         <form onSubmit={(e) => onSubmit(e)}>
           <DialogContent>
-            {/* <DialogContentText>Add Team</DialogContentText> */}
             <Box display="flex" flexDirection="column">
               <TextField
                 autoFocus
-                name="name"
+                // name="name"
                 id="name"
                 label="Name"
                 variant="outlined"
                 value={name}
-                onChange={(e) => onChange(e)}
+                onChange={(e) => setName(e.target.value)}
               />
 
               <FormControl variant="outlined" className={classes.sdm}>
@@ -84,9 +92,9 @@ const AddProjectDialog = ({
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="SDM"
-                  onChange={(e) => onChange(e)}
+                  onChange={(e) => setSDM(e.target.value)}
                   value={sdm}
-                  name="sdm"
+                  // name="sdm"
                 >
                   <MenuItem value="Agile">Agile</MenuItem>
                   <MenuItem value="Waterfall">Waterfall</MenuItem>
@@ -110,6 +118,16 @@ const AddProjectDialog = ({
   );
 };
 
-export default connect(null, { createProject, retrieveProjects })(
-  AddProjectDialog
+UpdateProjectDialog.propTypes = {
+  current: PropTypes.object,
+  updateProjects: PropTypes.func.isRequired,
+  retrieveProjects: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  current: state.projects.current,
+});
+
+export default connect(mapStateToProps, { updateProjects, retrieveProjects })(
+  UpdateProjectDialog
 );

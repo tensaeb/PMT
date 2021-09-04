@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+
+import { connect } from "react-redux";
+
 import {
   makeStyles,
   List,
@@ -15,6 +18,9 @@ import {
   FormControl,
   FormControlLabel,
   Switch,
+  Menu,
+  MenuItem,
+  Fade,
 } from "@material-ui/core";
 
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -23,10 +29,9 @@ import StyledBadge from "./StyledBadge";
 
 import AddIcon from "@material-ui/icons/Add";
 
-import AddTeamDialog from "../../Teams/AddTeamDialog";
-import Teams from "../../Teams/Teams";
 import Projects from "../../Projects/Projects";
 import AddProjectDialog from "../../Projects/AddProjectDialog";
+import { logout } from "../../../actions/auth";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -52,17 +57,26 @@ const useStyles = makeStyles((theme) => ({
     padding: "25px 0px 0px 3px",
   },
   darkmode: {
-    margin: theme.spacing(4),
+    margin: theme.spacing(1),
   },
 }));
 
-const SidebarItems = (props) => {
+const SidebarItems = ({ logout, isAuthenticated }) => {
   const classes = useStyles();
 
-  const [open, setOpen] = useState(false);
+  const [Open, setopen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const HandleClickOpen = () => {
+    setopen(true);
+  };
+
+  const handleClick = () => {
+    setAnchorEl(true);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(false);
   };
 
   return (
@@ -76,13 +90,33 @@ const SidebarItems = (props) => {
           </ListItemAvatar>
           <ListItemText primary="Single-line item" secondary="Secondary text" />
           <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="more">
+            <IconButton
+              edge="end"
+              aria-haspopup="true"
+              aria-label="more"
+              onClick={handleClick}
+            >
               <MoreHorizIcon />
             </IconButton>
+
+            <Menu
+              id="menu-list-grow"
+              anchorEl={anchorEl}
+              keepMounted
+              open={anchorEl}
+              onClose={handleClose}
+              TransitionComponent={Fade}
+              // getContentAnchorEl={null}
+              // anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              // transformOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={logout}>Logout</MenuItem>
+            </Menu>
           </ListItemSecondaryAction>
         </ListItem>
       </List>
-
       <Divider />
 
       {/* completed task and open task */}
@@ -129,19 +163,19 @@ const SidebarItems = (props) => {
           className={classes.button}
           style={{ backgroundColor: "transparent" }}
           disableRipple
-          onClick={() => handleClickOpen()}
+          onClick={() => HandleClickOpen()}
         >
           <IconButton aria-label="add" size="small">
             <AddIcon color="secondary" fontSize="inherit" />
           </IconButton>
           Add Project
         </Button>
-        <AddProjectDialog open={open} setOpen={setOpen} />
+        <AddProjectDialog Open={Open} setopen={setopen} />
       </Box>
 
       {/* Teams */}
 
-      <Box className={classes.projects}>
+      {/* <Box className={classes.projects}>
         <Typography className={classes.menuButtons} variant="caption">
           TEAMS
         </Typography>
@@ -168,9 +202,23 @@ const SidebarItems = (props) => {
           label="Dark Mode"
           labelPlacement="start"
         />
-      </FormControl>
+      </FormControl> */}
+      <Box>
+        <FormControl component="fieldset" className={classes.darkmode}>
+          <FormControlLabel
+            value="start"
+            control={<Switch color="primary" />}
+            label="Dark Mode"
+            labelPlacement="start"
+          />
+        </FormControl>
+      </Box>
     </div>
   );
 };
 
-export default SidebarItems;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { logout })(SidebarItems);

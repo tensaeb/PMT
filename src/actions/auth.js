@@ -2,44 +2,11 @@ import axios from "axios";
 import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  USER_LOADED_SUCCESS,
-  USER_LOADED_FAIL,
-  AUTHENTICATED_SUCCESS,
-  AUTHENTICATED_FAIL,
   LOGOUT,
 } from "./types";
+import { loadUser } from "./loadUser";
 
-export const load_user = () => async (dispatch) => {
-  if (localStorage.getItem("access")) {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `JWT ${localStorage.getItem("access")}`,
-        Accept: "application/json",
-      },
-    };
-
-    try {
-      const res = await axios.get(
-        `${process.env.PROJECT_API}/auth/users/me/`,
-        config
-      );
-
-      dispatch({
-        type: USER_LOADED_SUCCESS,
-        payload: res.data,
-      });
-    } catch (err) {
-      dispatch({
-        type: USER_LOADED_FAIL,
-      });
-    }
-  } else {
-    dispatch({
-      type: USER_LOADED_FAIL,
-    });
-  }
-};
+const apiUrl = "https://projmangtool.herokuapp.com";
 
 export const login = (email, password) => async (dispatch) => {
   const config = {
@@ -53,21 +20,23 @@ export const login = (email, password) => async (dispatch) => {
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post(
-      "https://projmangtool.herokuapp.com/login/",
-      body,
-      config
-    );
+    const res = await axios.post(`${apiUrl}/login/`, body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
 
-    // dispatch(load_user());
+    dispatch(loadUser());
   } catch (err) {
     dispatch({
       type: LOGIN_FAIL,
     });
   }
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({
+    type: LOGOUT,
+  });
 };

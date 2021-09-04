@@ -6,14 +6,11 @@ import {
   makeStyles,
   Button,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
   IconButton,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import TaskList from "../../Components/Home/Components/TaskList";
-import TaskDesc from "../../Components/Home/Components/TaskDesc";
+import TaskList from "../../Components/Tasks/TaskList";
+import TaskDesc from "../../Components/Tasks/TaskDesc";
 
 const drawerWidth = 240;
 
