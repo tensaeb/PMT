@@ -8,7 +8,7 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  project: [""],
+  project: [],
   current: null,
   loading: false,
   error: null,
@@ -21,7 +21,7 @@ function projectReducer(state = initialState, action) {
     case CREATE_PROJECT:
       return {
         ...state,
-        project: payload,
+        project: [...state.project, payload],
       };
 
     case RETRIEVE_PROJECTS:
