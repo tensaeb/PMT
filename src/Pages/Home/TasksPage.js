@@ -1,16 +1,8 @@
 import React from "react";
-import {
-  Paper,
-  Typography,
-  Box,
-  makeStyles,
-  Button,
-  Grid,
-  IconButton,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import TaskList from "../../Components/Tasks/TaskList";
+import { Paper, Box, makeStyles, Grid } from "@material-ui/core";
+
 import TaskDesc from "../../Components/Tasks/TaskDesc";
+import Tasks from "../../Components/Tasks/Tasks";
 
 const drawerWidth = 240;
 
@@ -22,10 +14,6 @@ const useStyles = makeStyles((theme) => ({
   papertwo: {
     // width: "80%",
     padding: theme.spacing(2),
-  },
-  titleBox: {
-    flexGrow: 1,
-    marginBottom: "10px",
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
@@ -55,31 +43,7 @@ const TasksPage = () => {
       >
         <Grid item xs={4}>
           <Paper className={classes.paper}>
-            <Box display="flex" flexDirection="column">
-              <Box
-                display="flex"
-                flexDirection="row"
-                className={classes.titleBox}
-              >
-                <Typography variant="h6" className={classes.titleBox}>
-                  Backlog
-                </Typography>
-                <Button
-                  size="small"
-                  color="secondary"
-                  style={{ backgroundColor: "transparent" }}
-                  disableRipple
-                >
-                  <IconButton aria-label="add" size="small">
-                    <AddIcon color="secondary" fontSize="inherit" />
-                  </IconButton>
-                  Add Task
-                </Button>
-              </Box>
-              <Box display="flex" flexDirection="column">
-                <TaskList />
-              </Box>
-            </Box>
+            <Tasks />
           </Paper>
         </Grid>
         <Grid item xs={8}>

@@ -7,7 +7,7 @@ import {
   UPDATE_PROJECT_FAIL,
   DELETE_PROJECT,
   DELETE_PROJECT_FAIL,
-  SET_CURRENT,
+  SET_CURRENT_PROJECT,
   CLEAR_CURRENT,
 } from "./types";
 
@@ -16,7 +16,7 @@ import ProjectDataService from "../services/projectService";
 //set current log
 export const setCurrent = (project) => {
   return {
-    type: SET_CURRENT,
+    type: SET_CURRENT_PROJECT,
     payload: project,
   };
 };

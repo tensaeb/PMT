@@ -3,7 +3,7 @@ import {
   RETRIEVE_PROJECTS,
   UPDATE_PROJECT,
   DELETE_PROJECT,
-  SET_CURRENT,
+  SET_CURRENT_PROJECT,
   CLEAR_CURRENT,
 } from "../actions/types";
 
@@ -55,7 +55,7 @@ function projectReducer(state = initialState, action) {
         project: state.project.filter((item) => item.id !== payload),
       };
 
-    case SET_CURRENT:
+    case SET_CURRENT_PROJECT:
       return {
         ...state,
         current: payload,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -8,10 +8,19 @@ import {
 } from "@material-ui/core";
 import MoreRoundedIcon from "@material-ui/icons/MoreRounded";
 
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { setCurrent } from "../../actions/projects";
+
 const useStyles = makeStyles((theme) => ({
   titleBox: {
     flexGrow: 1,
     marginBottom: "10px",
+  },
+  title: {
+    flexGrow: 1,
+    marginBottom: "3vh",
+    width: 1,
   },
   span: {
     marginTop: "-4vh",
@@ -25,30 +34,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TaskDesc = () => {
+const TaskDesc = ({ current }) => {
   const classes = useStyles();
+
   return (
     <>
       <Box display="flex" flexDirection="row" className={classes.titleBox}>
-        <Typography variant="h5" className={classes.titleBox}>
-          E-mail after registration
+        <Typography variant="h5" className={classes.title}>
+          {current && current.instruction}
         </Typography>
 
         <MoreRoundedIcon color="secondary" style={{ marginTop: 11 }} />
       </Box>
       <Box className={classes.span}>
         <Typography variant="caption">
-          Added by Kristin A. yesterday at 12:41pm
+          Added by {current && current.developer} yesterday at 12:41pm
         </Typography>
       </Box>
       <Box display="flex" flexDirection="row" className={classes.box}>
         <Box flexDirection="column" className={classes.box}>
           <Typography variant="h6">Assign</Typography>
-          <Typography variant="caption">Abebe Debebe</Typography>
+          <Typography variant="caption">
+            {current && current.developer}
+          </Typography>
         </Box>
         <Box flexDirection="column" className={classes.box}>
           <Typography variant="h6">Due On</Typography>
-          <Typography variant="caption">Tue, Dec 25</Typography>
+          <Typography variant="caption">{current && current.due}</Typography>
         </Box>
         <Box flexDirection="column">
           <Typography variant="h6">Status</Typography>
@@ -74,5 +86,12 @@ const TaskDesc = () => {
     </>
   );
 };
+TaskDesc.prototype = {
+  current: PropTypes.object,
+};
 
-export default TaskDesc;
+const mapStateToProps = (state) => ({
+  current: state.tasks.current,
+});
+
+export default connect(mapStateToProps)(TaskDesc);

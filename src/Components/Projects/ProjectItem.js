@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import {
-  List,
   ListItem,
   ListItemIcon,
   ListItemText,

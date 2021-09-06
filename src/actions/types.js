@@ -29,9 +29,23 @@ export const UPDATE_PROJECT_FAIL = "UPDATE_PROJECT_FAIL";
 export const DELETE_PROJECT = "DELETE_PROJECT";
 export const DELETE_PROJECT_FAIL = "DELETE_PROJECT_FAIL";
 
-export const SET_CURRENT = "SET_CURRENT";
-export const CLEAR_CURRENT = "CLEAR_CURRENT";
+export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT";
 
 //tasks
 
+export const CREATE_TASK = "CREATE_TASK";
+export const CREATE_TASK_FAIL = "CREATE_TASK_FAIL";
 
+export const GET_TASKS = "GET_TASKS";
+export const GET_TASKS_FAIL = "GET_TASKS_FAIL";
+
+export const UPDATE_TASK = "UPDATE_TASK";
+export const UPDATE_TASK_FAIL = "UPDATE_TASK_FAIL";
+
+export const DELETE_TASK = "DELETE_TASK";
+export const DELETE_TASK_FAIL = "DELETE_TASK_FAIL";
+
+export const SET_CURRENT_TASK = "SET_CURRENT_TASK";
+
+//others
+export const CLEAR_CURRENT = "CLEAR_CURRENT";
