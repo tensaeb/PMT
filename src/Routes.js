@@ -13,12 +13,14 @@ import TasksPage from "./Pages/Home/TasksPage";
 
 import KanbanPage from "./Pages/Home/KanbanPage";
 import CalendarPage from "./Pages/Home/CalendarPage";
+import ProfilePage from "./Pages/ProfilePage";
 
 const Routes = () => {
   return (
     <div>
       <BRoute>
         <Switch>
+          <Route path={["/home/profile"]} component={ProfilePage} />
           <Route path="/home/kanban" component={KanbanPage} />
           <Route path="/home/kanban" component={KanbanPage} />
           <Route path="/home/calendar" component={CalendarPage} />

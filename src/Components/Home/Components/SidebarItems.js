@@ -98,17 +98,12 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
             >
               <MoreHorizIcon />
             </IconButton>
-
             <Menu
-              id="menu-list-grow"
+              id="simple-menu"
               anchorEl={anchorEl}
               keepMounted
               open={anchorEl}
               onClose={handleClose}
-              TransitionComponent={Fade}
-              // getContentAnchorEl={null}
-              // anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              // transformOrigin={{ vertical: "top", horizontal: "center" }}
             >
               <MenuItem onClick={handleClose}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
@@ -173,36 +168,6 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
         <AddProjectDialog Open={Open} setopen={setopen} />
       </Box>
 
-      {/* Teams */}
-
-      {/* <Box className={classes.projects}>
-        <Typography className={classes.menuButtons} variant="caption">
-          TEAMS
-        </Typography>
-        <Teams />
-
-        <Button
-          color="secondary"
-          className={classes.button}
-          style={{ backgroundColor: "transparent" }}
-          disableRipple
-          onClick={() => handleClickOpen()}
-        >
-          <IconButton aria-label="add" size="small">
-            <AddIcon color="secondary" fontSize="inherit" />
-          </IconButton>
-          Add Team
-        </Button>
-        <AddTeamDialog open={open} setOpen={setOpen} />
-      </Box>
-      <FormControl component="fieldset" className={classes.darkmode}>
-        <FormControlLabel
-          value="start"
-          control={<Switch color="primary" />}
-          label="Dark Mode"
-          labelPlacement="start"
-        />
-      </FormControl> */}
       <Box>
         <FormControl component="fieldset" className={classes.darkmode}>
           <FormControlLabel

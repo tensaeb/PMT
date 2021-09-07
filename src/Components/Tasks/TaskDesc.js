@@ -5,6 +5,7 @@ import {
   makeStyles,
   Button,
   Divider,
+  Link,
 } from "@material-ui/core";
 import MoreRoundedIcon from "@material-ui/icons/MoreRounded";
 
@@ -36,12 +37,15 @@ const useStyles = makeStyles((theme) => ({
 
 const TaskDesc = ({ current }) => {
   const classes = useStyles();
+  const moment = require("moment");
+  const moments = moment(new Date(current && current.due));
+  // console.log(m.format("MMMM d, YYYY"));
 
   return (
     <>
       <Box display="flex" flexDirection="row" className={classes.titleBox}>
         <Typography variant="h5" className={classes.title}>
-          {current && current.instruction}
+          {current && current.name}
         </Typography>
 
         <MoreRoundedIcon color="secondary" style={{ marginTop: 11 }} />
@@ -60,7 +64,9 @@ const TaskDesc = ({ current }) => {
         </Box>
         <Box flexDirection="column" className={classes.box}>
           <Typography variant="h6">Due On</Typography>
-          <Typography variant="caption">{current && current.due}</Typography>
+          <Typography variant="caption">
+            {moments.format("MMMM d, YYYY")}
+          </Typography>
         </Box>
         <Box flexDirection="column">
           <Typography variant="h6">Status</Typography>
@@ -76,13 +82,13 @@ const TaskDesc = ({ current }) => {
       <Divider className={classes.divider} />
       <Typography variant="h6">description</Typography>
       <Typography variant="body2" align="justify">
-        Task Descriptions are used during project planning, project execution
-        and project control. During project planning the task descriptions are
-        used for scope planning and creating estimates. During project execution
-        the task description is used by those doing the activities to ensure
-        they are doing the work correctly.
+        {current && current.instruction}
       </Typography>
       <Divider className={classes.divider} />
+      <Typography variant="h6">Git Link</Typography>
+      <Link to={current && current.giturl} variant="body2" align="justify">
+        {current && current.giturl}
+      </Link>
     </>
   );
 };
