@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -14,9 +14,12 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
+import { loadUser } from "../../actions/loadUser";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { createProject, retrieveProjects } from "../../actions/projects";
+import { createProject } from "../../actions/projects";
+
+import SelectUser from "./SelectUser";
 
 const useStyles = makeStyles((theme) => ({
   sdm: {
@@ -25,18 +28,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddProjectDialog = ({
+  users,
+  loadUser,
   Open,
   setopen,
   createProject,
-  // retrieveProjects,
 }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     name: "",
     sdm: "",
+    manager: "",
   });
 
-  const { name, sdm } = formData;
+  const { name, sdm, manager } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,15 +49,23 @@ const AddProjectDialog = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProject(name, sdm);
-    // retrieveProjects();
 
-    // console.log(name, sdm);
+    const crProj = {
+      name,
+      sdm,
+      manager,
+    };
+
+    createProject(crProj);
   };
 
   const handleClose = () => {
     setopen(false);
   };
+
+  useEffect(() => {
+    loadUser();
+  }, []);
 
   return (
     <div>
@@ -96,6 +109,27 @@ const AddProjectDialog = ({
                   <MenuItem value="Spiral">Spiral</MenuItem>
                 </Select>
               </FormControl>
+
+              <FormControl variant="outlined" className={classes.sdm}>
+                <InputLabel id="demo-simple-select-label">Managers</InputLabel>
+                <Select
+                  labelId="managers-label"
+                  id="managers"
+                  label="manager"
+                  onChange={(e) => onChange(e)}
+                  value={manager}
+                  name="manager"
+                >
+                  {users &&
+                    users.map((user) => (
+                      <MenuItem key={user.id} value={user.id}>
+                        {user.first_name} {user.last_name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+
+              {/* <SelectUser manager={manager} onChange={onchange} /> */}
             </Box>
           </DialogContent>
           <DialogActions>
@@ -110,6 +144,13 @@ const AddProjectDialog = ({
   );
 };
 
-export default connect(null, { createProject, retrieveProjects })(
+const mapStateToProps = (state) => {
+  return {
+    users: state.auth.user,
+    projects: state.projects.project,
+  };
+};
+
+export default connect(mapStateToProps, { loadUser, createProject })(
   AddProjectDialog
 );

@@ -6,6 +6,9 @@ import {
   Button,
   Divider,
   Link,
+  IconButton,
+  Menu,
+  MenuItem,
 } from "@material-ui/core";
 import MoreRoundedIcon from "@material-ui/icons/MoreRounded";
 
@@ -39,39 +42,71 @@ const TaskDesc = ({ current }) => {
   const classes = useStyles();
   const moment = require("moment");
   const moments = moment(new Date(current && current.due));
-  // console.log(m.format("MMMM d, YYYY"));
+
+  const [anchorEl, setAnchorEl] = useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(false);
+  };
 
   return (
     <>
       <Box display="flex" flexDirection="row" className={classes.titleBox}>
         <Typography variant="h5" className={classes.title}>
-          {current && current.name}
+          {current && current.title}
         </Typography>
 
-        <MoreRoundedIcon color="secondary" style={{ marginTop: 11 }} />
+        <IconButton edge="end" aria-label="more" onClick={handleClick}>
+          <MoreRoundedIcon color="secondary" style={{ marginTop: 11 }} />
+        </IconButton>
+        <Menu
+          id="simple-menu"
+          anchorEl={false}
+          keepMounted
+          open={anchorEl}
+          onClose={handleClose}
+        >
+          <MenuItem
+            // onClick={() => {
+            //   setCurrent(project);
+            //   setopen(true);
+            // }}
+            onClick={() => handleClose()}
+          >
+            Update
+          </MenuItem>
+          <MenuItem
+            // onClick={() => handleDelete()}
+            onClick={() => handleClose()}
+          >
+            Delete
+          </MenuItem>
+        </Menu>
       </Box>
       <Box className={classes.span}>
         <Typography variant="caption">
-          Added by {current && current.developer} yesterday at 12:41pm
+          Added by {current && current.dev} yesterday at 12:41pm
         </Typography>
       </Box>
       <Box display="flex" flexDirection="row" className={classes.box}>
         <Box flexDirection="column" className={classes.box}>
           <Typography variant="h6">Assign</Typography>
-          <Typography variant="caption">
-            {current && current.developer}
-          </Typography>
+          <Typography variant="caption">{current && current.dev}</Typography>
         </Box>
         <Box flexDirection="column" className={classes.box}>
           <Typography variant="h6">Due On</Typography>
           <Typography variant="caption">
-            {moments.format("MMMM d, YYYY")}
+            {moments.format("MMMM, d, YYYY")}
           </Typography>
         </Box>
         <Box flexDirection="column">
           <Typography variant="h6">Status</Typography>
           <Typography variant="caption" style={{ color: "red" }}>
-            Doing
+            {current && current.status}
           </Typography>
         </Box>
         {/* <Box flexDirection="column" className={classes.box}>
@@ -87,7 +122,7 @@ const TaskDesc = ({ current }) => {
       <Divider className={classes.divider} />
       <Typography variant="h6">Git Link</Typography>
       <Link to={current && current.giturl} variant="body2" align="justify">
-        {current && current.giturl}
+        {current && current.url}
       </Link>
     </>
   );

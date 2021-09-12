@@ -18,7 +18,7 @@ import {
 
 import { makeStyles } from "@material-ui/core/styles";
 import { updateProjects, retrieveProjects } from "../../actions/projects";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   sdm: {
@@ -46,7 +46,6 @@ const UpdateProjectDialog = ({
       sdm,
     };
 
-    <Redirect to="/home" />;
     updateProjects(updProj.id, updProj);
   };
 

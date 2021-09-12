@@ -28,9 +28,9 @@ export const clearCurrent = () => {
   };
 };
 
-export const createProject = (name, sdm) => async (dispatch) => {
+export const createProject = (data) => async (dispatch) => {
   try {
-    const res = await ProjectDataService.create({ name, sdm });
+    const res = await ProjectDataService.create({ data });
 
     dispatch({
       type: CREATE_PROJECT,

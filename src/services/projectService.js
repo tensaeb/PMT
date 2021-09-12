@@ -2,19 +2,19 @@ import http from "../http-common";
 
 class ProjectDataService {
   getAll() {
-    return http.get("projects/");
+    return http.get("projs/");
   }
   get(id) {
-    return http.get(`projects/${id}`);
+    return http.get(`projs/${id}`);
   }
   create(data) {
-    return http.post("projects", data);
+    return http.post("projs/", data);
   }
   update(id, data) {
-    return http.put(`projects/${id}`, data);
+    return http.put(`projs/${id}`, data);
   }
   delete(id) {
-    return http.delete(`projects/${id}`);
+    return http.delete(`projs/${id}`);
   }
 }
 

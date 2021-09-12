@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { connect } from "react-redux";
 import { getTasks } from "../../actions/tasks";
@@ -14,11 +14,12 @@ import {
 
 import AddIcon from "@material-ui/icons/Add";
 import TaskItem from "./TaskItem";
+import AddTasks from "./AddTasks";
 
 const useStyles = makeStyles((theme) => ({
   titleBox: {
     flexGrow: 1,
-    marginBottom: "10px",
+    margin: theme.spacing(1),
   },
   loading: {
     padding: theme.spacing(2),
@@ -27,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Tasks = ({ tasks, getTasks }) => {
   const classes = useStyles();
+  const [Open, setopen] = useState(false);
+
+  const HandleClickOpen = () => {
+    setopen(true);
+  };
 
   useEffect(() => {
     getTasks();
@@ -36,20 +42,22 @@ const Tasks = ({ tasks, getTasks }) => {
     <div>
       <Box display="flex" flexDirection="column">
         <Box display="flex" flexDirection="row" className={classes.titleBox}>
-          <Typography variant="h6" className={classes.titleBox}>
-            Backlog
+          <Typography variant="h5" className={classes.titleBox}>
+            TASKS
           </Typography>
           <Button
             size="small"
             color="secondary"
             style={{ backgroundColor: "transparent" }}
             disableRipple
+            onClick={() => HandleClickOpen()}
           >
             <IconButton aria-label="add" size="small">
               <AddIcon color="secondary" fontSize="inherit" />
             </IconButton>
             Add Task
           </Button>
+          <AddTasks Open={Open} setopen={setopen} />
         </Box>
         <Box display="flex" flexDirection="column">
           <List>

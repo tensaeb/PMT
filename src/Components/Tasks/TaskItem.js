@@ -9,7 +9,7 @@ const TaskItem = ({ task, setCurrent }) => {
   return (
     <>
       <ListItem button p={3} onClick={() => setCurrent(task)}>
-        <ListItemText primary={task.name} />
+        <ListItemText primary={task.title} />
       </ListItem>
     </>
   );

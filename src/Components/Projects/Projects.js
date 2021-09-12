@@ -54,9 +54,9 @@ const Projects = ({ projects, retrieveProjects }) => {
   );
 };
 
-Projects.protoTypes = {
-  projects: PropTypes.object.isRequired,
-};
+// Projects.protoTypes = {
+//   projects: PropTypes.object.isRequired,
+// };
 
 const mapStateToProps = (state) => {
   return {
