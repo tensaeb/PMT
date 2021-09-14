@@ -30,7 +30,7 @@ export const clearCurrent = () => {
 
 export const createProject = (data) => async (dispatch) => {
   try {
-    const res = await ProjectDataService.create({ data });
+    const res = await ProjectDataService.create(data);
 
     dispatch({
       type: CREATE_PROJECT,
@@ -41,9 +41,9 @@ export const createProject = (data) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: CREATE_PROJECT_FAIL,
-      payload: err.resp,
+      payload: err.response.data,
     });
-    // console.log(err);
+    // console.log(err.response.data);
 
     return Promise.reject(err);
   }

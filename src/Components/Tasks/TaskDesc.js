@@ -14,7 +14,8 @@ import MoreRoundedIcon from "@material-ui/icons/MoreRounded";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { setCurrent } from "../../actions/projects";
+import { setCurrent } from "../../actions/tasks";
+import UpdateTask from "./UpdateTask";
 
 const useStyles = makeStyles((theme) => ({
   titleBox: {
@@ -38,10 +39,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TaskDesc = ({ current }) => {
+const TaskDesc = ({ current, tasks }) => {
   const classes = useStyles();
   const moment = require("moment");
   const moments = moment(new Date(current && current.due));
+
+  const [open, setOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(false);
 
@@ -71,11 +74,11 @@ const TaskDesc = ({ current }) => {
           onClose={handleClose}
         >
           <MenuItem
-            // onClick={() => {
-            //   setCurrent(project);
-            //   setopen(true);
-            // }}
-            onClick={() => handleClose()}
+            onClick={() => {
+              setCurrent(tasks);
+              setOpen(true);
+            }}
+            // onClick={() => handleClose()}
           >
             Update
           </MenuItem>
@@ -100,7 +103,7 @@ const TaskDesc = ({ current }) => {
         <Box flexDirection="column" className={classes.box}>
           <Typography variant="h6">Due On</Typography>
           <Typography variant="caption">
-            {moments.format("MMMM, d, YYYY")}
+            {moments.format("MMMM, DD, YYYY")}
           </Typography>
         </Box>
         <Box flexDirection="column">
@@ -124,6 +127,7 @@ const TaskDesc = ({ current }) => {
       <Link to={current && current.giturl} variant="body2" align="justify">
         {current && current.url}
       </Link>
+      <UpdateTask open={open} setOpen={setOpen} />
     </>
   );
 };
@@ -132,6 +136,7 @@ TaskDesc.prototype = {
 };
 
 const mapStateToProps = (state) => ({
+  tasks: state.tasks.task,
   current: state.tasks.current,
 });
 

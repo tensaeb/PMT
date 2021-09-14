@@ -31,13 +31,6 @@ function projectReducer(state = initialState, action) {
       };
 
     case UPDATE_PROJECT:
-      // return {
-      //   ...state,
-      //   project: state.project.map((projects) =>
-      //     projects.id === payload.id ? payload : projects
-      //   ),
-      // };
-
       return state.project.map((item) => {
         if (item.id === payload.id) {
           return {

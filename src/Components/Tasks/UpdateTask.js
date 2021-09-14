@@ -22,9 +22,8 @@ import {
 } from "@material-ui/pickers";
 
 import { loadUser } from "../../actions/loadUser";
-import { createTasks } from "../../actions/tasks";
+import { getTasks, updateTasks, setCurrent } from "../../actions/tasks";
 import { retrieveProjects } from "../../actions/projects";
-import { getTasks } from "../../actions/tasks";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -34,44 +33,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddTasks = ({
-  users,
+const UpdateTask = ({
+  open,
+  setOpen,
   loadUser,
-  Open,
-  setopen,
+  updateTasks,
   retrieveProjects,
+  current,
+  users,
   projects,
-  createTasks,
-  getTasks,
 }) => {
   const classes = useStyles();
-  const [formData, setFormData] = useState({
-    url: "",
-    project: "",
-    dev: "",
-    instruction: "",
-    title: "",
-  });
-
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [project, setProject] = useState("");
+  const [dev, setDev] = useState("");
+  const [instruction, setInstruction] = useState("");
   const [due, setDueDate] = useState(new Date());
 
-  const { url, project, dev, instruction, title } = formData;
-
-  const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleDateChange = () => {
+    // const moment = require("moment");
+    // const moments = moment(new Date());
+    // const dates = moments.format("M/D/YYYY");
+    setDueDate(current.due);
   };
 
-  const handleDateChange = () => {
-    const moment = require("moment");
-    const moments = moment(new Date());
-    const dates = moments.format("M/D/YYYY");
-    setDueDate(dates);
+  const handleClose = () => {
+    setOpen(false);
+    setTitle("");
+    setUrl("");
+    setProject("");
+    setDev("");
+    setInstruction("");
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const crTask = {
+    const upTask = {
       url,
       project,
       dev,
@@ -80,27 +79,29 @@ const AddTasks = ({
       title,
     };
     handleClose();
-
-    createTasks(crTask);
-  };
-
-  const handleClose = () => {
-    setopen(false);
-    setFormData("");
-    getTasks();
+    updateTasks(current.id, upTask);
   };
 
   useEffect(() => {
-    loadUser();
+    getTasks();
     retrieveProjects();
-  }, []);
+    loadUser();
+    if (current) {
+      setTitle(current.title);
+      setUrl(current.url);
+      setProject(current.project);
+      setDev(current.dev);
+      setInstruction(current.instruction);
+      setDueDate(current.due);
+    }
+  }, [current]);
 
   return (
     <div>
       <Dialog
         fullWidth={true}
         maxWidth="sm"
-        open={Open}
+        open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
@@ -116,7 +117,7 @@ const AddTasks = ({
                 label="Title"
                 variant="outlined"
                 value={title}
-                onChange={(e) => onChange(e)}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <TextField
                 className={classes.padding}
@@ -125,7 +126,7 @@ const AddTasks = ({
                 label="URL"
                 variant="outlined"
                 value={url}
-                onChange={(e) => onChange(e)}
+                // onChange={(e) => onChange(e)}
               />
               <FormControl variant="outlined" className={classes.padding}>
                 <InputLabel id="demo-simple-select-label">Project</InputLabel>
@@ -133,9 +134,9 @@ const AddTasks = ({
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="projprojectect"
-                  onChange={(e) => onChange(e)}
                   value={project}
                   name="project"
+                  onChange={(e) => setProject(e.target.value)}
                 >
                   {projects &&
                     projects.map((proj) => (
@@ -151,7 +152,7 @@ const AddTasks = ({
                   labelId="managers-label"
                   id="managers"
                   label="manager"
-                  onChange={(e) => onChange(e)}
+                  onChange={(e) => setDev(e.target.value)}
                   value={dev}
                   name="dev"
                 >
@@ -172,27 +173,8 @@ const AddTasks = ({
                 multiline
                 rows={4}
                 value={instruction}
-                onChange={(e) => onChange(e)}
+                onChange={(e) => setInstruction(e.target.value)}
               />
-
-              {/* <FormControl variant="outlined" className={classes.padding}>
-                  <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="user"
-                    onChange={(e) => onChange(e)}
-                    value={status}
-                    name="status"
-                  >
-                    <MenuItem value="CMP">Completed</MenuItem>
-                    <MenuItem value="SUB">Submitted</MenuItem>
-                    <MenuItem value="PEN">Pending</MenuItem>
-                    <MenuItem value="DOI">Doing</MenuItem>
-                    <MenuItem value="REJ">Regected</MenuItem>
-                  </Select>
-                </FormControl> */}
-              {/* <Grid container justifyContent="space-around"> */}
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   disableToolbar
@@ -202,9 +184,12 @@ const AddTasks = ({
                   format="MM/dd/yyyy"
                   margin="normal"
                   id="date-picker-inline"
-                  label="Date picker inline"
+                  label="Due Date"
                   value={due}
-                  onChange={handleDateChange}
+                  onChange={(e) => {
+                    setDueDate(e.target.value);
+                    // handleDateChange(e.target.value);
+                  }}
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
@@ -224,16 +209,14 @@ const AddTasks = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    users: state.auth.user,
-    projects: state.projects.project,
-  };
-};
+const mapStateToProps = (state) => ({
+  projects: state.projects.project,
+  users: state.auth.user,
+  current: state.tasks.current,
+});
 
 export default connect(mapStateToProps, {
-  createTasks,
   loadUser,
+  updateTasks,
   retrieveProjects,
-  getTasks,
-})(AddTasks);
+})(UpdateTask);

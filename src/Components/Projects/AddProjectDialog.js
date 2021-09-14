@@ -19,8 +19,6 @@ import { loadUser } from "../../actions/loadUser";
 import { makeStyles } from "@material-ui/core/styles";
 import { createProject } from "../../actions/projects";
 
-import SelectUser from "./SelectUser";
-
 const useStyles = makeStyles((theme) => ({
   sdm: {
     marginTop: theme.spacing(4),
@@ -56,11 +54,14 @@ const AddProjectDialog = ({
       manager,
     };
 
+    handleClose();
+
     createProject(crProj);
   };
 
   const handleClose = () => {
     setopen(false);
+    setFormData("");
   };
 
   useEffect(() => {
@@ -101,12 +102,12 @@ const AddProjectDialog = ({
                   value={sdm}
                   name="sdm"
                 >
-                  <MenuItem value="Agile">Agile</MenuItem>
-                  <MenuItem value="Waterfall">Waterfall</MenuItem>
-                  <MenuItem value="Incremental">Incremental</MenuItem>
+                  <MenuItem value="AGL">Agile</MenuItem>
+                  <MenuItem value="WRF">Waterfall</MenuItem>
+                  <MenuItem value="INC">Incremental</MenuItem>
                   <MenuItem value="RAD">RAD</MenuItem>
-                  <MenuItem value="Iterative">Iterative</MenuItem>
-                  <MenuItem value="Spiral">Spiral</MenuItem>
+                  <MenuItem value="ITR">Iterative</MenuItem>
+                  <MenuItem value="SPR">Spiral</MenuItem>
                 </Select>
               </FormControl>
 

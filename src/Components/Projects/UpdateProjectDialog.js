@@ -32,10 +32,12 @@ const UpdateProjectDialog = ({
   updateProjects,
   retrieveProjects,
   current,
+  users,
 }) => {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [sdm, setSDM] = useState("");
+  const [manager, setManager] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -44,8 +46,9 @@ const UpdateProjectDialog = ({
       id: current.id,
       name,
       sdm,
+      manager,
     };
-
+    handleClose();
     updateProjects(updProj.id, updProj);
   };
 
@@ -59,6 +62,7 @@ const UpdateProjectDialog = ({
     if (current) {
       setName(current.name);
       setSDM(current.sdm);
+      setManager(current.manager);
     }
   }, [current]);
 
@@ -77,7 +81,7 @@ const UpdateProjectDialog = ({
             <Box display="flex" flexDirection="column">
               <TextField
                 autoFocus
-                // name="name"
+                name="name"
                 id="name"
                 label="Name"
                 variant="outlined"
@@ -93,14 +97,33 @@ const UpdateProjectDialog = ({
                   label="SDM"
                   onChange={(e) => setSDM(e.target.value)}
                   value={sdm}
-                  // name="sdm"
+                  name="sdm"
                 >
-                  <MenuItem value="Agile">Agile</MenuItem>
-                  <MenuItem value="Waterfall">Waterfall</MenuItem>
-                  <MenuItem value="Incremental">Incremental</MenuItem>
+                  <MenuItem value="AGL">Agile</MenuItem>
+                  <MenuItem value="WRF">Waterfall</MenuItem>
+                  <MenuItem value="INC">Incremental</MenuItem>
                   <MenuItem value="RAD">RAD</MenuItem>
-                  <MenuItem value="Iterative">Iterative</MenuItem>
-                  <MenuItem value="Spiral">Spiral</MenuItem>
+                  <MenuItem value="ITR">Iterative</MenuItem>
+                  <MenuItem value="SPR">Spiral</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl variant="outlined" className={classes.sdm}>
+                <InputLabel id="demo-simple-select-label">Managers</InputLabel>
+                <Select
+                  labelId="managers-label"
+                  id="managers"
+                  label="manager"
+                  onChange={(e) => setManager(e.target.value)}
+                  value={manager}
+                  name="manager"
+                >
+                  {users &&
+                    users.map((user) => (
+                      <MenuItem key={user.id} value={user.id}>
+                        {user.first_name} {user.last_name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Box>
@@ -124,6 +147,7 @@ UpdateProjectDialog.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  users: state.auth.user,
   current: state.projects.current,
 });
 

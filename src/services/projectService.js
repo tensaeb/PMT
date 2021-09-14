@@ -11,10 +11,10 @@ class ProjectDataService {
     return http.post("projs/", data);
   }
   update(id, data) {
-    return http.put(`projs/${id}`, data);
+    return http.put(`projs/${id}/`, data);
   }
   delete(id) {
-    return http.delete(`projs/${id}`);
+    return http.delete(`projs/${id}/`);
   }
 }
 
