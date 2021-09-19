@@ -12,7 +12,7 @@ export const loadUser = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: USER_LOADED_FAIL,
-      payload: err.response.data,
+     // payload: err.response.data,
     });
   }
 };
