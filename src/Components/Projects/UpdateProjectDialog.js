@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+import { useFormik } from "formik";
+
 import { connect } from "react-redux";
 import {
   Dialog,
@@ -18,7 +20,8 @@ import {
 
 import { makeStyles } from "@material-ui/core/styles";
 import { updateProjects, retrieveProjects } from "../../actions/projects";
-// import { Redirect } from "react-router-dom";
+import { ProjectSchema } from "../../Validation/ProjectSchema";
+import { Redirect } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   sdm: {
@@ -35,34 +38,30 @@ const UpdateProjectDialog = ({
   users,
 }) => {
   const classes = useStyles();
-  const [name, setName] = useState("");
-  const [sdm, setSDM] = useState("");
-  const [manager, setManager] = useState("");
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const updProj = {
-      id: current.id,
-      name,
-      sdm,
-      manager,
-    };
-    handleClose();
-    updateProjects(updProj.id, updProj);
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      sdm: "",
+      manager: "",
+    },
+    validationSchema: ProjectSchema,
+    onSubmit: (values) => {
+      updateProjects(current.id, values);
+      handleClose();
+    },
+  });
 
   const handleClose = () => {
     setopen(false);
   };
 
   useEffect(() => {
-    retrieveProjects();
-
+    // retrieveProjects();
     if (current) {
-      setName(current.name);
-      setSDM(current.sdm);
-      setManager(current.manager);
+      formik.setFieldValue("name", current.name);
+      formik.setFieldValue("sdm", current.sdm);
+      formik.setFieldValue("manager", current.manager);
     }
   }, [current]);
 
@@ -76,7 +75,7 @@ const UpdateProjectDialog = ({
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Update Project </DialogTitle>
-        <form onSubmit={(e) => onSubmit(e)}>
+        <form onSubmit={(e) => formik.handleSubmit(e)}>
           <DialogContent>
             <Box display="flex" flexDirection="column">
               <TextField
@@ -85,8 +84,8 @@ const UpdateProjectDialog = ({
                 id="name"
                 label="Name"
                 variant="outlined"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formik.values.name}
+                onChange={formik.handleChange}
               />
 
               <FormControl variant="outlined" className={classes.sdm}>
@@ -95,8 +94,8 @@ const UpdateProjectDialog = ({
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="SDM"
-                  onChange={(e) => setSDM(e.target.value)}
-                  value={sdm}
+                  onChange={formik.handleChange}
+                  value={formik.values.sdm}
                   name="sdm"
                 >
                   <MenuItem value="AGL">Agile</MenuItem>
@@ -114,8 +113,8 @@ const UpdateProjectDialog = ({
                   labelId="managers-label"
                   id="managers"
                   label="manager"
-                  onChange={(e) => setManager(e.target.value)}
-                  value={manager}
+                  onChange={formik.handleChange}
+                  value={formik.values.manager}
                   name="manager"
                 >
                   {users &&

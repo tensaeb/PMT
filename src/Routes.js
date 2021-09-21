@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 
 import { BrowserRouter as BRoute, Route, Switch } from "react-router-dom";
 
@@ -20,7 +20,7 @@ const Routes = () => {
     <div>
       <BRoute>
         <Switch>
-          <Route path={["/home/profile"]} component={ProfilePage} />
+          <Route path={["/home/profile"]} component={ProfilePage} role="ANY" />
           <Route path="/home/kanban" component={KanbanPage} />
           <Route path="/home/kanban" component={KanbanPage} />
           <Route path="/home/calendar" component={CalendarPage} />
@@ -43,5 +43,24 @@ const Routes = () => {
     </div>
   );
 };
+
+// const PrivateRoute = ({component: Component, ...rest }) => {
+//   return (
+
+//       // Show the component only when the user is logged in
+//       // Otherwise, redirect the user to /signin page
+//       <Route {...rest} render={props => (
+//           isLogin() ?
+//               <Component {...props} />
+//           : <Redirect to="/signin" />
+//       )} />
+//   );
+// };
+
+// const ProtectedRoute = ({ component: Component, ...rest}) {
+//   // get state from redux
+//   // if user is authorized and roles match with the props in rest then render component
+//   // else render 404 page
+// }
 
 export default Routes;

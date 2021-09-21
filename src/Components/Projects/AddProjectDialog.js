@@ -18,6 +18,8 @@ import { loadUser } from "../../actions/loadUser";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { createProject } from "../../actions/projects";
+import { useFormik } from "formik";
+import { ProjectSchema } from "../../Validation/ProjectSchema";
 
 const useStyles = makeStyles((theme) => ({
   sdm: {
@@ -33,36 +35,23 @@ const AddProjectDialog = ({
   createProject,
 }) => {
   const classes = useStyles();
-  const [formData, setFormData] = useState({
-    name: "",
-    sdm: "",
-    manager: "",
-  });
-
-  const { name, sdm, manager } = formData;
-
-  const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const crProj = {
-      name,
-      sdm,
-      manager,
-    };
-
-    handleClose();
-
-    createProject(crProj);
-  };
-
   const handleClose = () => {
     setopen(false);
-    setFormData("");
   };
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      sdm: "",
+      manager: "",
+    },
+    validationSchema: ProjectSchema,
+    onSubmit: (values, { resetForm }) => {
+      createProject(values);
+      handleClose();
+      resetForm();
+    },
+  });
 
   useEffect(() => {
     loadUser();
@@ -78,7 +67,7 @@ const AddProjectDialog = ({
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Add Project </DialogTitle>
-        <form onSubmit={(e) => onSubmit(e)}>
+        <form onSubmit={formik.handleSubmit}>
           <DialogContent>
             {/* <DialogContentText>Add Team</DialogContentText> */}
             <Box display="flex" flexDirection="column">
@@ -88,8 +77,10 @@ const AddProjectDialog = ({
                 id="name"
                 label="Name"
                 variant="outlined"
-                value={name}
-                onChange={(e) => onChange(e)}
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
               />
 
               <FormControl variant="outlined" className={classes.sdm}>
@@ -98,9 +89,11 @@ const AddProjectDialog = ({
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="SDM"
-                  onChange={(e) => onChange(e)}
-                  value={sdm}
+                  onChange={formik.handleChange}
+                  value={formik.values.sdm}
                   name="sdm"
+                  error={formik.touched.sdm && Boolean(formik.errors.sdm)}
+                  helperText={formik.touched.sdm && formik.errors.sdm}
                 >
                   <MenuItem value="AGL">Agile</MenuItem>
                   <MenuItem value="WRF">Waterfall</MenuItem>
@@ -117,9 +110,13 @@ const AddProjectDialog = ({
                   labelId="managers-label"
                   id="managers"
                   label="manager"
-                  onChange={(e) => onChange(e)}
-                  value={manager}
+                  onChange={formik.handleChange}
+                  value={formik.values.manager}
                   name="manager"
+                  error={
+                    formik.touched.manager && Boolean(formik.errors.manager)
+                  }
+                  helperText={formik.touched.manager && formik.errors.manager}
                 >
                   {users &&
                     users.map((user) => (

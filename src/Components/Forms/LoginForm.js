@@ -15,7 +15,11 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import Alert from "@material-ui/lab/Alert";
+
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { LoginSchema } from "../../Validation/LoginSchema";
+import { useFormik } from "formik";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,31 +39,30 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  alert: {
+    margin: theme.spacing(10, 10, 10, 10),
+  },
 }));
 
-const LoginForm = ({ login, isAuthenticated }) => {
+const LoginForm = ({ message, isLoggedIn, login }) => {
   const classes = useStyles();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: LoginSchema,
+    onSubmit: (values) => {
+      console.log(values);
+      login(values.email);
+    },
   });
-
-  const { email, password } = formData;
-
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onSubmit = (e) => {
-    // e.preventDefault();
-
-    login(email, password);
-  };
 
   // Is the user Authenticated??
   //Redirect them to home page
 
-  if (isAuthenticated) {
+  if (isLoggedIn) {
     return <Redirect to="/home" />;
   }
 
@@ -72,7 +75,7 @@ const LoginForm = ({ login, isAuthenticated }) => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
+        <form className={classes.form} onSubmit={formik.handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -81,8 +84,10 @@ const LoginForm = ({ login, isAuthenticated }) => {
             id="email"
             label="Email Address"
             name="email"
-            value={email}
-            onChange={(e) => onChange(e)}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
             autoComplete="email"
             autoFocus
           />
@@ -96,9 +101,10 @@ const LoginForm = ({ login, isAuthenticated }) => {
             type="password"
             id="password"
             autoComplete="current-password"
-            value={password}
-            onChange={(e) => onChange(e)}
-            // minLength="6"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -124,6 +130,11 @@ const LoginForm = ({ login, isAuthenticated }) => {
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
+            {message && (
+              <Alert icon={false} classname={classes.alert} severity="error">
+                {message}
+              </Alert>
+            )}
           </Grid>
         </form>
       </div>
@@ -132,7 +143,8 @@ const LoginForm = ({ login, isAuthenticated }) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  isLoggedIn: state.Authentication.isLoggedIn,
+  message: state.message.message,
 });
 
 export default connect(mapStateToProps, { login })(LoginForm);

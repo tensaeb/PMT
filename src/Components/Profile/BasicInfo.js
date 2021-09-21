@@ -13,21 +13,24 @@ import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import SaveIcon from "@material-ui/icons/Save";
 
+import { ProfileSchema } from "../../Validation/ProfileSchema";
+import { useFormik } from "formik";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2, 0, 6, 0),
   },
   form: {
     padding: "auto",
-    width: "65%",
+    width: "60%",
     margin: "auto",
   },
   basicForm: {
-    margin: theme.spacing(0, 0, 2, 0),
+    margin: theme.spacing(0, 0, 3, 0),
   },
   update: {
-    margin: theme.spacing(4, 0, 0, 0),
-    width: "22%",
+    margin: theme.spacing(6, 0, 0, 0),
+    width: "15%",
   },
   avatar: {
     width: theme.spacing(21),
@@ -35,13 +38,25 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, 0, 3, 0),
   },
   button: {
-    width: "22%",
-    margin: theme.spacing(0, 0, 3, 0),
+    width: "15%",
+    margin: theme.spacing(0, 0, 6, 0),
   },
 }));
 
 const BasicInfo = () => {
   const classes = useStyles();
+
+  const formik = useFormik({
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      img: null,
+    },
+    validationSchema: ProfileSchema,
+    onSubmit: (values) => {},
+  });
+
   return (
     <Paper className={classes.paper}>
       <Box
@@ -68,16 +83,18 @@ const BasicInfo = () => {
         flexDirection="column"
         className={classes.form}
       >
-        <form noValidate autoComplete="off">
+        <form autoComplete="off">
           <TextField
             id="standard-basic"
             label="First Name"
+            variant="outlined"
             fullWidth
             className={classes.basicForm}
           />
           <TextField
             id="standard-basic"
             label="Last Name"
+            variant="outlined"
             fullWidth
             className={classes.basicForm}
           />
@@ -85,12 +102,14 @@ const BasicInfo = () => {
             id="standard-basic"
             label="Email"
             type="email"
+            variant="outlined"
             fullWidth
             className={classes.basicForm}
           />
           <TextField
             id="standard-basic"
             label="Occupation"
+            variant="outlined"
             fullWidth
             //   className={classes.basicForm}
           />
