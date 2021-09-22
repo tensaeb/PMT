@@ -25,6 +25,8 @@ import { loadUser } from "../../actions/loadUser";
 import { createTasks } from "../../actions/tasks";
 import { retrieveProjects } from "../../actions/projects";
 import { getTasks } from "../../actions/tasks";
+import { TaskSchema } from "../../Validation/TaskSchema";
+import { useFormik } from "formik";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -53,6 +55,23 @@ const AddTasks = ({
     title: "",
   });
 
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      url: "",
+      project: "",
+      dev: "",
+      instruction: "",
+      due: "",
+    },
+    validationSchema: TaskSchema,
+    onSubmit: (values, { resetForm }) => {
+      // createProject(values);
+      // handleClose();
+      // resetForm();
+    },
+  });
+
   const [due, setDueDate] = useState(new Date());
 
   const { url, project, dev, instruction, title } = formData;
@@ -72,12 +91,12 @@ const AddTasks = ({
     e.preventDefault();
 
     const crTask = {
+      title,
       url,
       project,
       dev,
       instruction,
       due,
-      title,
     };
     handleClose();
 

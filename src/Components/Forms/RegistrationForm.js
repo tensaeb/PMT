@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useFormik } from "formik";
 import { connect } from "react-redux";
-import { register } from "../../actions/register";
+import { register } from "../../actions/auth";
+import Alert from "@material-ui/lab/Alert";
 
 import { Link, Redirect } from "react-router-dom";
 import {
@@ -14,6 +16,8 @@ import {
 } from "@material-ui/core";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+
+import { RegistrationSchema } from "../../Validation/RegistrationSchema";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,43 +37,38 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  alert: {
+    margin: theme.spacing(7, 0, 0, 0),
+  },
 }));
 
-const RegistrationForm = ({ register, isAuthenticated }) => {
+const RegistrationForm = ({ register, message }) => {
   const classes = useStyles();
 
-  const [accountCreated, setAccountCreated] = useState(false);
-
-  const [formData, setFormData] = useState({
-    lname: "",
-    fname: "",
-    email: "",
-    password: "",
-    re_password: "",
+  const formik = useFormik({
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+      re_password: "",
+    },
+    validationSchema: RegistrationSchema,
+    onSubmit: (values) => {
+      // console.log(
+      //   values.first_name,
+      //   values.last_name,
+      //   values.email,
+      //   values.password
+      // );
+      register(
+        values.first_name,
+        values.last_name,
+        values.email,
+        values.password
+      );
+    },
   });
-
-  const { fname, lname, email, password, re_password } = formData;
-
-  const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    if (password === re_password) {
-      register(fname, lname, email, password);
-      setAccountCreated(true);
-    }
-  };
-
-  if (isAuthenticated) {
-    return <Redirect to="/home" />;
-  }
-
-  if (accountCreated) {
-    return <Redirect to="/login" />;
-  }
 
   return (
     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -80,19 +79,19 @@ const RegistrationForm = ({ register, isAuthenticated }) => {
         <Typography component="h1" variant="h5">
           Registration
         </Typography>
-        <form className={classes.form} noValidate onSubmit={(e) => onSubmit(e)}>
+        <form className={classes.form} onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="fname"
+                name="first_name"
                 variant="outlined"
                 required
                 fullWidth
                 id="firstName"
                 label="First Name"
-                value={fname}
-                onChange={(e) => onChange(e)}
+                value={formik.values.first_name}
+                onChange={formik.handleChange}
                 autoFocus
               />
             </Grid>
@@ -103,10 +102,10 @@ const RegistrationForm = ({ register, isAuthenticated }) => {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lname"
+                name="last_name"
                 autoComplete="lname"
-                value={lname}
-                onChange={(e) => onChange(e)}
+                value={formik.values.last_name}
+                onChange={formik.handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -118,8 +117,10 @@ const RegistrationForm = ({ register, isAuthenticated }) => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                value={email}
-                onChange={(e) => onChange(e)}
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
             </Grid>
             <Grid item xs={12}>
@@ -132,8 +133,12 @@ const RegistrationForm = ({ register, isAuthenticated }) => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value={password}
-                onChange={(e) => onChange(e)}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
               />
             </Grid>
             <Grid item xs={12}>
@@ -145,9 +150,15 @@ const RegistrationForm = ({ register, isAuthenticated }) => {
                 label="Confirm Password"
                 type="password"
                 id="re_password"
-                value={re_password}
-                onChange={(e) => onChange(e)}
-                // autoComplete="current-password"
+                value={formik.values.re_password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.re_password &&
+                  Boolean(formik.errors.re_password)
+                }
+                helperText={
+                  formik.touched.re_password && formik.errors.re_password
+                }
               />
             </Grid>
           </Grid>
@@ -166,6 +177,16 @@ const RegistrationForm = ({ register, isAuthenticated }) => {
                 Already have an account? Sign in
               </Link>
             </Grid>
+            {message && (
+              <Alert
+                icon={false}
+                severity={formik.isSubmitting ? "success" : "error"}
+                className={classes.alert}
+                // variant="filled"
+              >
+                {message}
+              </Alert>
+            )}
           </Grid>
         </form>
       </div>
@@ -174,7 +195,7 @@ const RegistrationForm = ({ register, isAuthenticated }) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  message: state.message.message,
 });
 
 export default connect(mapStateToProps, { register })(RegistrationForm);
