@@ -4,13 +4,20 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  SET_CURREN_USER,
 } from "../actions/types";
 
 const user = JSON.parse(localStorage.getItem("user"));
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-const initialState = user
-  ? { isLoggedIn: true, user }
-  : { isLoggedIn: false, user: null };
+// const initialState = {
+//   isLoggedIn: false,
+//   currentUser: [],
+//   user: []
+// };
+
+const initialState =
+  user && currentUser ? { isLoggedIn: true, user, currentUser } : {};
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
@@ -30,7 +37,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoggedIn: true,
-        user: payload.user,
+        user: payload,
+      };
+    case SET_CURREN_USER:
+      return {
+        ...state,
+        isLoggedIn: true,
+        currentUser: payload,
       };
     case LOGIN_FAIL:
       return {
@@ -43,6 +56,7 @@ export default function (state = initialState, action) {
         ...state,
         isLoggedIn: false,
         user: null,
+        currentUser: null,
       };
     default:
       return state;

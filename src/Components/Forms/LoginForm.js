@@ -54,8 +54,7 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
-      console.log(values);
-      login(values.email);
+      login(values.email, values.password);
     },
   });
 

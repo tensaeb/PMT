@@ -32,6 +32,8 @@ import AddIcon from "@material-ui/icons/Add";
 import Projects from "../../Projects/Projects";
 import AddProjectDialog from "../../Projects/AddProjectDialog";
 import { logout } from "../../../actions/auth";
+import { Link, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -61,8 +63,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SidebarItems = ({ logout, isAuthenticated }) => {
+const SidebarItems = ({ logout, isLoggedIn, user }) => {
   const classes = useStyles();
+  const { user: currentUser } = user;
+  // console.log(currentUser);
 
   const [Open, setopen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(false);
@@ -79,6 +83,10 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
     setAnchorEl(false);
   };
 
+  if (isLoggedIn === false) {
+    return <Redirect to="/login" />;
+  }
+
   return (
     <div>
       <List dense>
@@ -88,7 +96,10 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
               <ImageIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary="Single-line item" secondary="Secondary text" />
+          <ListItemText
+            primary="{currentUser && currentUser.first_name}"
+            secondary="Secondary text"
+          />
           <ListItemSecondaryAction>
             <IconButton
               edge="end"
@@ -183,7 +194,8 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  isLoggedIn: state.Authentication.isLoggedIn,
+  user: state.Authentication,
 });
 
 export default connect(mapStateToProps, { logout })(SidebarItems);

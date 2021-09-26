@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   TextField,
+  Typography,
 } from "@material-ui/core";
 
 import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
@@ -15,6 +16,7 @@ import SaveIcon from "@material-ui/icons/Save";
 
 import { ProfileSchema } from "../../Validation/ProfileSchema";
 import { useFormik } from "formik";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BasicInfo = () => {
+const BasicInfo = ({ user }) => {
   const classes = useStyles();
 
   const formik = useFormik({
@@ -91,6 +93,7 @@ const BasicInfo = () => {
             fullWidth
             className={classes.basicForm}
           />
+          <Typography variant="h4">{user.email}</Typography>
           <TextField
             id="standard-basic"
             label="Last Name"
@@ -134,4 +137,10 @@ const BasicInfo = () => {
   );
 };
 
-export default BasicInfo;
+const mapStateToProps = (state) => {
+  return {
+    user: state.Authentication,
+  };
+};
+
+export default connect(mapStateToProps)(BasicInfo);

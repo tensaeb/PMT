@@ -5,9 +5,12 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   SET_MESSAGE,
+  SET_CURREN_USER,
 } from "./types";
 
 import AuthService from "../services/auth.service";
+import jwt_decode from "jwt-decode";
+import axios from "axios";
 
 export const register =
   (first_name, last_name, email, password) => async (dispatch) => {
@@ -51,8 +54,12 @@ export const login = (email, password) => async (dispatch) => {
     (data) => {
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: { user: data },
+        payload: data,
       });
+      const token = data.access;
+      const decoded = jwt_decode(token);
+
+      dispatch(setCurrentUser(decoded));
 
       return Promise.resolve();
     },
@@ -84,4 +91,20 @@ export const logout = () => (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
+};
+
+export const setCurrentUser = (decoded) => async (dispatch) => {
+  return axios
+    .get(`https://projmangtool.herokuapp.com/users/${decoded.user_id}`)
+    .then((res) => {
+      if (res.data) {
+        localStorage.setItem("currentUser", JSON.stringify(res.data));
+        dispatch({ type: SET_CURREN_USER, payload: res.data });
+      }
+    });
+
+  //   return {
+  //     type: SET_CURREN_USER,
+  //     payload: decoded,
+  //   };
 };
