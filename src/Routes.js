@@ -14,30 +14,80 @@ import TasksPage from "./Pages/Home/TasksPage";
 import KanbanPage from "./Pages/Home/KanbanPage";
 import CalendarPage from "./Pages/Home/CalendarPage";
 import ProfilePage from "./Pages/ProfilePage";
+import PrivateRoutes from "./Routes/PrivateRoute";
+import PublicRoutes from "./Routes/PublicRoutes";
+import { connect } from "react-redux";
 
-const Routes = () => {
+const Routes = ({ isLoggedIn }) => {
   return (
     <div>
       <BRoute>
         <Switch>
-          <Route path={["/home/profile"]} component={ProfilePage} role="ANY" />
-          <Route path="/home/kanban" component={KanbanPage} />
-          <Route path="/home/kanban" component={KanbanPage} />
-          <Route path="/home/calendar" component={CalendarPage} />
-          <Route path={["/home", "/home/index"]} component={TasksPage} />
+          <PrivateRoutes
+            path={["/home/profile"]}
+            component={ProfilePage}
+            role="ANY"
+          />
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path="/home/kanban"
+            component={KanbanPage}
+          />
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path="/home/kanban"
+            component={KanbanPage}
+          />
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path="/home/calendar"
+            component={CalendarPage}
+          />
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path={["/home", "/home/index"]}
+            component={TasksPage}
+          />
         </Switch>
         <Switch>
-          <Route path="/home" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/reset-password" component={ResetPassword} />
-          <Route
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path="/home"
+            component={Home}
+          />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            s
+            path="/login"
+            component={Login}
+          />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            path="/register"
+            component={Register}
+          />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            path="/reset-password"
+            component={ResetPassword}
+          />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
             path="/password/reset/confrm/:uid/:token"
             component={ResetPasswordConfirm}
           />
-          <Route path="/activate/:uid/:token" component={Activate} />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            path="/activate/:uid/:token"
+            component={Activate}
+          />
 
-          <Route path="/" component={Landingpage} />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            exact
+            path="/"
+            component={Landingpage}
+          />
         </Switch>
       </BRoute>
     </div>
@@ -63,4 +113,11 @@ const Routes = () => {
 //   // else render 404 page
 // }
 
-export default Routes;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.Authentication.isLoggedIn,
+    currentUser: state.Authentication.currentUser,
+  };
+};
+
+export default connect(mapStateToProps, {})(Routes);

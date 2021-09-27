@@ -63,10 +63,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SidebarItems = ({ logout, isLoggedIn, user }) => {
+const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
   const classes = useStyles();
-  const { user: currentUser } = user;
-  // console.log(currentUser);
 
   const [Open, setopen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(false);
@@ -97,8 +95,11 @@ const SidebarItems = ({ logout, isLoggedIn, user }) => {
             </Avatar>
           </ListItemAvatar>
           <ListItemText
-            primary="{currentUser && currentUser.first_name}"
-            secondary="Secondary text"
+            primary={
+              currentUser &&
+              currentUser.first_name + " " + currentUser.last_name
+            }
+            secondary={currentUser && currentUser.role}
           />
           <ListItemSecondaryAction>
             <IconButton
@@ -195,7 +196,7 @@ const SidebarItems = ({ logout, isLoggedIn, user }) => {
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.Authentication.isLoggedIn,
-  user: state.Authentication,
+  currentUser: state.Authentication.currentUser,
 });
 
 export default connect(mapStateToProps, { logout })(SidebarItems);

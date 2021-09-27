@@ -5,6 +5,7 @@ import {
   DELETE_PROJECT,
   SET_CURRENT_PROJECT,
   CLEAR_CURRENT,
+  RETRIEVE_USER_PROJECTS,
 } from "../actions/types";
 
 const initialState = {
@@ -22,6 +23,12 @@ function projectReducer(state = initialState, action) {
       return {
         ...state,
         project: [...state.project, payload],
+      };
+
+    case RETRIEVE_USER_PROJECTS:
+      return {
+        ...state,
+        project: payload,
       };
 
     case RETRIEVE_PROJECTS:

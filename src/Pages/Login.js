@@ -12,7 +12,7 @@ import LoginForm from "../Components/Forms/LoginForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh",
+    height: "130vh",
   },
   image: {
     backgroundImage: "url(https://source.unsplash.com/random)",

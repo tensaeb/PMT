@@ -1,17 +1,12 @@
 import React from "react";
 
-import {
-  CssBaseline,
-  Grid,
-  makeStyles,
-} from "@material-ui/core";
-
+import { CssBaseline, Grid, makeStyles } from "@material-ui/core";
 
 import RegistrationForm from "../Components/Forms/RegistrationForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh",
+    height: "130vh",
   },
   image: {
     backgroundImage: "url(https://source.unsplash.com/random)",
@@ -23,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
   },
-  
 }));
 
 const Registration = () => {

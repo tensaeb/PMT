@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { List, makeStyles, Typography } from "@material-ui/core";
 
 import { connect } from "react-redux";
-import { retrieveProjects } from "../../actions/projects";
+import { retrieveProjects, userProjs } from "../../actions/projects";
 import UpdateProjectDialog from "./UpdateProjectDialog";
 import ProjectItem from "./ProjectItem";
 
@@ -21,16 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Projects = ({ projects, retrieveProjects }) => {
+const Projects = ({ projects, retrieveProjects, currentUser, userProjs }) => {
   const classes = useStyles();
   const [Open, setopen] = useState(false);
-  // const [items, setItems] = useState([]);
 
-  // const { projectItems } = projects;
-
-  useEffect(() => {
-    retrieveProjects();
-  }, []);
+  if (currentUser) {
+    userProjs(currentUser.id);
+  }
 
   return (
     <div>
@@ -61,9 +58,11 @@ const Projects = ({ projects, retrieveProjects }) => {
 const mapStateToProps = (state) => {
   return {
     projects: state.projects.project,
+    currentUser: state.Authentication.currentUser,
   };
 };
 
 export default connect(mapStateToProps, {
   retrieveProjects,
+  userProjs,
 })(Projects);
