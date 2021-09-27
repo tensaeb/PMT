@@ -163,6 +163,7 @@ const RegistrationForm = ({ register, message }) => {
             </Grid>
           </Grid>
           <Button
+            id = "registerbtn"
             type="submit"
             fullWidth
             variant="contained"

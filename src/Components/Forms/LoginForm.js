@@ -55,7 +55,8 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
     validationSchema: LoginSchema,
     onSubmit: (values) => {
       console.log(values);
-      login(values.email);
+      login(values.email, values.email);
+
     },
   });
 
@@ -67,8 +68,8 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
   }
 
   return (
-    <div>
-      <div className={classes.paper}>
+    <div id='one'>
+      <div className={classes.paper} id='two'>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -111,6 +112,7 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
             label="Remember me"
           />
           <Button
+            id="signinbtn"
             type="submit"
             fullWidth
             variant="contained"
@@ -119,6 +121,7 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
           >
             Sign In
           </Button>
+          
           <Grid container>
             <Grid item xs>
               <Link to="/reset-password" variant="body2">

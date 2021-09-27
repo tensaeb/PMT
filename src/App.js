@@ -7,7 +7,7 @@ import Routes from "./Routes";
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
+      <div className="App" id = "container">
         <Routes />
       </div>
     </Provider>
