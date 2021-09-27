@@ -16,6 +16,7 @@ import AssignmentSharpIcon from "@material-ui/icons/AssignmentSharp";
 import MoreHorizOutlinedIcon from "@material-ui/icons/MoreHorizOutlined";
 
 import { deleteProjects, setCurrent } from "../../actions/projects";
+import { deleteConfirmMessage } from "../../actions/confirmDelete";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -23,7 +24,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProjectItem = ({ setopen, project, deleteProjects, setCurrent }) => {
+const ProjectItem = ({
+  setopen,
+  project,
+  deleteProjects,
+  setCurrent,
+  confirmMessage,
+  deleteConfirm,
+}) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(false);
 
@@ -35,7 +43,12 @@ const ProjectItem = ({ setopen, project, deleteProjects, setCurrent }) => {
     setAnchorEl(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (item) => {
+    if (confirmMessage) {
+      return;
+    } else {
+      deleteConfirm(item);
+    }
     deleteProjects(project.id);
     // history.push("/home");
   };
@@ -72,4 +85,15 @@ const ProjectItem = ({ setopen, project, deleteProjects, setCurrent }) => {
   );
 };
 
-export default connect(null, { deleteProjects, setCurrent })(ProjectItem);
+const mapStateToProps = (state) => ({
+  confirmMessage: state.confirmDelete.confirmMessage,
+});
+// const mapDispatchToProps = (dispatch) => ({
+//   deleteConfirmMessage: (item) => dispatch(deleteConfirmMessage(item)),
+// });
+
+export default connect(mapStateToProps, {
+  deleteProjects,
+  setCurrent,
+  deleteConfirmMessage,
+})(ProjectItem);

@@ -14,8 +14,8 @@ import axios from "axios";
 
 export const register =
   (first_name, last_name, email, password) => async (dispatch) => {
-    return AuthService.register(first_name, last_name, email, password).then(
-      (response) => {
+    return AuthService.register(first_name, last_name, email, password)
+      .then((response) => {
         dispatch({
           type: REGISTER_SUCCESS,
         });
@@ -26,14 +26,9 @@ export const register =
         });
 
         return Promise.resolve();
-      },
-      (error) => {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+      })
+      .catch((error) => {
+        const message = error.response.data;
 
         dispatch({
           type: REGISTER_FAIL,
@@ -45,13 +40,12 @@ export const register =
         });
 
         return Promise.reject();
-      }
-    );
+      });
   };
 
 export const login = (email, password) => async (dispatch) => {
-  return AuthService.login(email, password).then(
-    (data) => {
+  return AuthService.login(email, password)
+    .then((data) => {
       dispatch({
         type: LOGIN_SUCCESS,
         payload: data,
@@ -62,14 +56,9 @@ export const login = (email, password) => async (dispatch) => {
       dispatch(setCurrentUser(decoded));
 
       return Promise.resolve();
-    },
-    (error) => {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+    })
+    .catch((error) => {
+      const message = error.response.data;
 
       dispatch({
         type: LOGIN_FAIL,
@@ -81,9 +70,13 @@ export const login = (email, password) => async (dispatch) => {
       });
 
       return Promise.reject();
-    }
-  );
+    });
 };
+// (error.response &&
+//   error.response.data &&
+//   error.response.data.message) ||
+// error.message ||
+// error.toString();
 
 export const logout = () => (dispatch) => {
   AuthService.logout();

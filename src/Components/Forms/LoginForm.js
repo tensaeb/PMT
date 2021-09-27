@@ -143,7 +143,7 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.Authentication.isLoggedIn,
-  message: state.message.message,
+  message: state.message.detail,
 });
 
 export default connect(mapStateToProps, { login })(LoginForm);

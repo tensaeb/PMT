@@ -5,10 +5,12 @@ import { makeStyles, AppBar, Toolbar } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   appbarTransp: {
-    backgroundColor: "rgba(67, 129, 168, 0)",
+    backgroundColor: theme.palette.primary,
+    color: "white",
   },
   appBarSolid: {
-    backgroundColor: "rgba(67, 129, 168, 1)",
+    backgroundColor: "#fff",
+    color: theme.palette.primary,
   },
 }));
 

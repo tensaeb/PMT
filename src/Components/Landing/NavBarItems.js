@@ -18,17 +18,20 @@ import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    color: theme.palette.primary,
   },
   menuButton: {
     marginRight: theme.spacing(1),
   },
   title: {
     flexGrow: 1,
+    color: theme.palette.secondary.main,
   },
   bodyEl: {
     flexGrow: 1,
     display: "flex",
     justifyContent: "center",
+    color: theme.palette.secondary.main,
   },
   mobileMenus: {
     flexGrow: 1,
@@ -68,7 +71,7 @@ const NavBarItems = () => {
   return (
     <>
       <Button onClick={scrollToTop}>
-        <Typography variant="h5" className={classes.title}>
+        <Typography variant="h4" className={classes.title}>
           PMT
         </Typography>
       </Button>
@@ -87,7 +90,7 @@ const NavBarItems = () => {
                   About-us
                 </Link>
               </Button>
-              <Button className="nav-item" color="inherit">
+              {/* <Button className="nav-item" color="inherit">
                 <Link
                   activeClass="active"
                   to="team"
@@ -97,7 +100,7 @@ const NavBarItems = () => {
                 >
                   Team
                 </Link>
-              </Button>
+              </Button> */}
               <Button className="nav-item" color="inherit">
                 <Link
                   activeClass="active"
@@ -184,7 +187,6 @@ const NavBarItems = () => {
                   </Link>
                 </ListItem>
               </List>
-              
             </Menu>
           </div>
         )}

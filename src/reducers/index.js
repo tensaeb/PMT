@@ -4,6 +4,7 @@ import projects from "./projects";
 import tasks from "./tasks";
 import message from "./message";
 import Authentication from "./Authentication";
+import confirmDelete from "./confirmDelete";
 
 export default combineReducers({
   auth,
@@ -11,4 +12,5 @@ export default combineReducers({
   tasks,
   message,
   Authentication,
+  confirmDelete,
 });

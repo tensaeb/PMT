@@ -78,16 +78,10 @@ const TaskDesc = ({ current, tasks }) => {
               setCurrent(tasks);
               setOpen(true);
             }}
-            // onClick={() => handleClose()}
           >
             Update
           </MenuItem>
-          <MenuItem
-            // onClick={() => handleDelete()}
-            onClick={() => handleClose()}
-          >
-            Delete
-          </MenuItem>
+          <MenuItem onClick={() => handleClose()}>Delete</MenuItem>
         </Menu>
       </Box>
       <Box className={classes.span}>
