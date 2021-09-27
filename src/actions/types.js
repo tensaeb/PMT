@@ -56,3 +56,4 @@ export const SET_CURRENT_TASK = "SET_CURRENT_TASK";
 export const CLEAR_CURRENT = "CLEAR_CURRENT";
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+export const UPLOAD_IMAGE = "UPLOAD_IMAGE";

@@ -11,8 +11,7 @@ import {
 const initialState = {
   project: [],
   current: null,
-  loading: false,
-  error: null,
+  allprojects: [],
 };
 
 function projectReducer(state = initialState, action) {
@@ -22,7 +21,7 @@ function projectReducer(state = initialState, action) {
     case CREATE_PROJECT:
       return {
         ...state,
-        project: [...state.project, payload],
+        allprojects: [...state.project, payload],
       };
 
     case RETRIEVE_USER_PROJECTS:
@@ -34,7 +33,7 @@ function projectReducer(state = initialState, action) {
     case RETRIEVE_PROJECTS:
       return {
         ...state,
-        project: payload,
+        allprojects: payload,
       };
 
     case UPDATE_PROJECT:

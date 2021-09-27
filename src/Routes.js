@@ -24,9 +24,9 @@ const Routes = ({ isLoggedIn }) => {
       <BRoute>
         <Switch>
           <PrivateRoutes
+            isLoggedIn={isLoggedIn}
             path={["/home/profile"]}
             component={ProfilePage}
-            role="ANY"
           />
           <PrivateRoutes
             isLoggedIn={isLoggedIn}

@@ -102,9 +102,21 @@ export const setCurrentUser = (decoded) => async (dispatch) => {
         dispatch({ type: SET_CURREN_USER, payload: res.data });
       }
     });
+};
 
-  //   return {
-  //     type: SET_CURREN_USER,
-  //     payload: decoded,
-  //   };
+export const uploadimage = (id, img) => async (dispatch) => {
+  return axios({
+    method: "post",
+    url: `https://projmangtool.herokuapp.com/users/${id}`,
+    data: img,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+    .then(function (response) {
+      //handle success
+      console.log(response);
+    })
+    .catch(function (response) {
+      //handle error
+      console.log(response);
+    });
 };

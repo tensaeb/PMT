@@ -61,6 +61,17 @@ const useStyles = makeStyles((theme) => ({
   darkmode: {
     margin: theme.spacing(1),
   },
+  avatar: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  },
+  userDet: {
+    padding: theme.spacing(0, 0, 0, 2),
+  },
+  userName: {
+    fontWeight: "900",
+    // fontSize: "15px",
+  },
 }));
 
 const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
@@ -82,7 +93,7 @@ const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
   };
 
   if (isLoggedIn === false) {
-    return <Redirect to="/login" />;
+    return <Redirect to="/" />;
   }
 
   return (
@@ -90,18 +101,30 @@ const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
       <List dense>
         <ListItem>
           <ListItemAvatar>
-            <Avatar>
-              <ImageIcon />
-            </Avatar>
+            <Avatar
+              alt={
+                currentUser &&
+                currentUser.first_name + " " + currentUser.last_name
+              }
+              src={currentUser && currentUser.img}
+              className={classes.avatar}
+            />
           </ListItemAvatar>
           <ListItemText
+            className={classes.userDet}
             primary={
-              currentUser &&
-              currentUser.first_name + " " + currentUser.last_name
+              <Typography variant="h6" className={classes.userName}>
+                {currentUser &&
+                  currentUser.first_name + " " + currentUser.last_name}
+              </Typography>
             }
-            secondary={currentUser && currentUser.role}
+            secondary={
+              <Typography variant="body2FF">
+                {currentUser && currentUser.role}
+              </Typography>
+            }
           />
-          <ListItemSecondaryAction>
+          {/* <ListItemSecondaryAction>
             <IconButton
               edge="end"
               aria-haspopup="true"
@@ -121,7 +144,7 @@ const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
               <MenuItem onClick={handleClose}>My account</MenuItem>
               <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
-          </ListItemSecondaryAction>
+          </ListItemSecondaryAction> */}
         </ListItem>
       </List>
       <Divider />
@@ -129,14 +152,14 @@ const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
       {/* completed task and open task */}
 
       <Box display="flex" flexDirection="row" className={classes.box}>
-        <Box flexDirection="column" m={1}>
+        {/* <Box flexDirection="column" m={1}>
           <Typography variant="h6">378</Typography>
           <Typography variant="caption">Completed Tasks</Typography>
         </Box>
         <Box flexDirection="column" m={1}>
           <Typography variant="h6">22</Typography>
           <Typography variant="caption">Open Tasks</Typography>
-        </Box>
+        </Box> */}
       </Box>
 
       {/* Menus */}
@@ -145,17 +168,16 @@ const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
         <Typography className={classes.menuButtons} variant="caption">
           MENUS
         </Typography>
-        <Button className={classes.menuButtons} fullWidth>
-          Home
+        <Button onClick={handleClose} className={classes.menuButtons} fullWidth>
+          Profile
         </Button>
-        <Button className={classes.menuButtons} fullWidth>
+        {/* <Button className={classes.menuButtons} fullWidth>
           My Task
+        </Button> */}
+
+        <Button onClick={logout} fullWidth className={classes.menuButtons}>
+          Logout
         </Button>
-        <StyledBadge color="primary" badgeContent={6}>
-          <Button fullWidth className={classes.menuButtons}>
-            Notification
-          </Button>
-        </StyledBadge>
       </Box>
 
       {/* Projects */}
