@@ -34,6 +34,7 @@ import AddProjectDialog from "../../Projects/AddProjectDialog";
 import { logout } from "../../../actions/auth";
 import { Link, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -76,6 +77,13 @@ const useStyles = makeStyles((theme) => ({
 
 const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
   const classes = useStyles();
+
+  const history = useHistory();
+
+  const route = () => {
+    let path = `/home/profile/`;
+    history.push(path);
+  };
 
   const [Open, setopen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(false);
@@ -168,7 +176,7 @@ const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
         <Typography className={classes.menuButtons} variant="caption">
           MENUS
         </Typography>
-        <Button onClick={handleClose} className={classes.menuButtons} fullWidth>
+        <Button onClick={route} className={classes.menuButtons} fullWidth>
           Profile
         </Button>
         {/* <Button className={classes.menuButtons} fullWidth>
@@ -202,7 +210,7 @@ const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
         <AddProjectDialog Open={Open} setopen={setopen} />
       </Box>
 
-      <Box>
+      {/* <Box>
         <FormControl component="fieldset" className={classes.darkmode}>
           <FormControlLabel
             value="start"
@@ -211,7 +219,7 @@ const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
             labelPlacement="start"
           />
         </FormControl>
-      </Box>
+      </Box> */}
     </div>
   );
 };

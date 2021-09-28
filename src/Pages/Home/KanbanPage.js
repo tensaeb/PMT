@@ -67,6 +67,7 @@ const KanbanPage = ({ getTasks, tasks }) => {
       const destItems = [...destColumn.items];
       const [removed] = sourceItems.splice(source.index, 1);
       destItems.splice(destination.index, 0, removed);
+      console.log(sourceColumn, destColumn, sourceItems, destItems);
       setColumns({
         ...columns,
         [source.droppableId]: {
@@ -125,7 +126,7 @@ const KanbanPage = ({ getTasks, tasks }) => {
 
 const mapStateToProps = (state) => {
   return {
-    tasks: state.tasks.task,
+    tasks: state.tasks.allTasks,
   };
 };
 

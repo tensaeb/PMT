@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { register } from "../../actions/auth";
 import Alert from "@material-ui/lab/Alert";
 
+import { withRouter } from "react-router-dom";
+
 import { Link, Redirect } from "react-router-dom";
 import {
   Avatar,
@@ -177,17 +179,12 @@ const RegistrationForm = ({ register, message }) => {
                 Already have an account? Sign in
               </Link>
             </Grid>
-            {message && (
-              <Alert
-                icon={false}
-                severity={formik.isSubmitting ? "success" : "error"}
-                className={classes.alert}
-                // variant="filled"
-              >
-                {message}
-              </Alert>
-            )}
           </Grid>
+          {message && (
+            <Alert icon={false} classname={classes.alert} severity="error">
+              {message}
+            </Alert>
+          )}
         </form>
       </div>
     </Grid>
@@ -198,4 +195,6 @@ const mapStateToProps = (state) => ({
   message: state.message.message,
 });
 
-export default connect(mapStateToProps, { register })(RegistrationForm);
+export default connect(mapStateToProps, { register })(
+  withRouter(RegistrationForm)
+);

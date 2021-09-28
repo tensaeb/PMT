@@ -36,13 +36,13 @@ const ProfilePage = () => {
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
-      <Grid container spacing={4}>
-        <Grid item xs={12} sm={6} direction="row">
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
           <BasicInfo />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
           <ChangePwd />
-        </Grid>
+        </Grid> */}
       </Grid>
     </main>
   );

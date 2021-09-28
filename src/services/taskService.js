@@ -16,6 +16,9 @@ class TaskDataService {
   delete(id) {
     return http.delete(`tasks/${id}/`);
   }
+  getUserTask(id) {
+    return http.get(`users/${id}/getassignedtasks/`);
+  }
 }
 
 export default new TaskDataService();

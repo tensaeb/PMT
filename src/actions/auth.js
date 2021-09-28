@@ -19,10 +19,11 @@ export const register =
         dispatch({
           type: REGISTER_SUCCESS,
         });
+        // history.push("/login");
 
         dispatch({
           type: SET_MESSAGE,
-          payload: response.data.message,
+          payload: response.data,
         });
 
         return Promise.resolve();

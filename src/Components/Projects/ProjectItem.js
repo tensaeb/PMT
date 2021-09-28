@@ -44,11 +44,11 @@ const ProjectItem = ({
   };
 
   const handleDelete = (item) => {
-    if (confirmMessage) {
-      return;
-    } else {
-      deleteConfirm(item);
-    }
+    // if (confirmMessage) {
+    //   return;
+    // } else {
+    //   deleteConfirm(item);
+    // }
     deleteProjects(project.id);
     // history.push("/home");
   };

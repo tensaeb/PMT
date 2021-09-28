@@ -86,13 +86,15 @@ const TaskDesc = ({ current, tasks }) => {
       </Box>
       <Box className={classes.span}>
         <Typography variant="caption">
-          Added by {current && current.dev} yesterday at 12:41pm
+          Added by {current && current.dev_name}
         </Typography>
       </Box>
       <Box display="flex" flexDirection="row" className={classes.box}>
         <Box flexDirection="column" className={classes.box}>
           <Typography variant="h6">Assign</Typography>
-          <Typography variant="caption">{current && current.dev}</Typography>
+          <Typography variant="caption">
+            {current && current.dev_name}
+          </Typography>
         </Box>
         <Box flexDirection="column" className={classes.box}>
           <Typography variant="h6">Due On</Typography>

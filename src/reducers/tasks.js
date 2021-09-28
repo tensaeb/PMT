@@ -5,11 +5,13 @@ import {
   CREATE_TASK,
   UPDATE_TASK,
   DELETE_TASK,
+  GET_USER_TASKS,
 } from "../actions/types";
 
 const initialState = {
   task: [],
   current: null,
+  allTasks: [],
   loading: false,
   error: null,
 };
@@ -20,17 +22,17 @@ function taskReducer(state = initialState, action) {
     case GET_TASKS:
       return {
         ...state,
-        task: payload,
+        allTasks: payload,
       };
 
     case CREATE_TASK:
       return {
         ...state,
-        project: [...state.task, payload],
+        allTasks: [...state.task, payload],
       };
 
     case UPDATE_TASK:
-      return state.task.map((item) => {
+      return state.allTasks.map((item) => {
         if (item.id === payload.id) {
           return {
             ...item,
@@ -41,10 +43,16 @@ function taskReducer(state = initialState, action) {
         }
       });
 
+    case GET_USER_TASKS:
+      return {
+        ...state,
+        task: payload,
+      };
+
     case DELETE_TASK:
       return {
         ...state,
-        project: state.task.filter((item) => item.id !== payload),
+        allTasks: state.task.filter((item) => item.id !== payload),
       };
 
     case SET_CURRENT_TASK:

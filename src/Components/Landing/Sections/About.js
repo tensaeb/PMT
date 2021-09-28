@@ -7,7 +7,7 @@ import {
   createMuiTheme,
   makeStyles,
 } from "@material-ui/core";
-import { ReactComponent as TeamImage } from "../../../Images/About-us.svg";
+import { ReactComponent as ABoutImage } from "../../../Images/About-us.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,7 +48,7 @@ const About = () => {
         className={classes.about}
       >
         <Grid item xs={12} sm={6}>
-          <TeamImage className={classes.image} />
+          <ABoutImage className={classes.image} />
         </Grid>
         <Grid item xs={12} sm={6}>
           <MuiThemeProvider theme={theme}>

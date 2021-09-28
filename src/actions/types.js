@@ -44,6 +44,9 @@ export const CREATE_TASK_FAIL = "CREATE_TASK_FAIL";
 export const GET_TASKS = "GET_TASKS";
 export const GET_TASKS_FAIL = "GET_TASKS_FAIL";
 
+export const GET_USER_TASKS = "GET_USER_TASKS";
+export const GET_USER_TASKS_FAIL = "GET_USER_TASKS_FAIL";
+
 export const UPDATE_TASK = "UPDATE_TASK";
 export const UPDATE_TASK_FAIL = "UPDATE_TASK_FAIL";
 
@@ -61,3 +64,6 @@ export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
 //confirm
 export const DISPLAY_DELETE_CONFIRM = "DISPLAY_DELETE_CONFIRM";
 export const CLOSE_DELETE_CONFIRM = "CLOSE_DELETE_CONFIRM";
+
+//Kanban
+export const SET_ACTIVE_BOARD = "SET_ACTIVE_BOARD";

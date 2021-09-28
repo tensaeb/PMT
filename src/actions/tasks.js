@@ -9,6 +9,8 @@ import {
   UPDATE_TASK_FAIL,
   DELETE_TASK,
   DELETE_TASK_FAIL,
+  GET_USER_TASKS,
+  GET_USER_TASKS_FAIL,
 } from "./types";
 import TaskDataService from "../services/taskService";
 
@@ -76,7 +78,7 @@ export const updateTasks = (id, data) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: UPDATE_TASK_FAIL,
-      type: err.resp,
+      payload: err.resp,
     });
     return Promise.reject(err);
   }
@@ -91,9 +93,23 @@ export const deleteProjects = (id) => async (dispatch) => {
       payload: id,
     });
   } catch (err) {
-    console.log(err);
     dispatch({
       type: DELETE_TASK_FAIL,
+      payload: err.response.data,
+    });
+  }
+};
+
+export const getUserTask = (id) => async (dispatch) => {
+  try {
+    const res = await TaskDataService.getUserTask(id);
+    dispatch({
+      type: GET_USER_TASKS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_USER_TASKS_FAIL,
       payload: err.response.data,
     });
   }

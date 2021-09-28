@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   alert: {
-    margin: theme.spacing(10, 10, 10, 10),
+    padding: theme.spacing(20, 10, 10, 10),
   },
 }));
 
