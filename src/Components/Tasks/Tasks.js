@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { connect } from "react-redux";
-import { getTasks } from "../../actions/tasks";
+import { getUserTask } from "../../actions/tasks";
 
 import {
   Typography,
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Tasks = ({ tasks, getTasks }) => {
+const Tasks = ({ tasks, getUserTask, currentUser }) => {
   const classes = useStyles();
   const [Open, setopen] = useState(false);
 
@@ -35,8 +35,10 @@ const Tasks = ({ tasks, getTasks }) => {
   };
 
   useEffect(() => {
-    getTasks();
-  }, []);
+    if (currentUser) {
+      getUserTask(currentUser.id);
+    }
+  }, [currentUser]);
 
   return (
     <div>
@@ -78,7 +80,8 @@ const Tasks = ({ tasks, getTasks }) => {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks.task,
+    currentUser: state.Authentication.currentUser,
   };
 };
 
-export default connect(mapStateToProps, { getTasks })(Tasks);
+export default connect(mapStateToProps, { getUserTask })(Tasks);

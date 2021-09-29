@@ -16,6 +16,9 @@ class ProjectDataService {
   delete(id) {
     return http.delete(`projs/${id}/`);
   }
+  projByUser(id) {
+    return http.get(`users/${id}/getmyprojs/`);
+  }
 }
 
 export default new ProjectDataService();

@@ -9,6 +9,8 @@ import {
   DELETE_PROJECT_FAIL,
   SET_CURRENT_PROJECT,
   CLEAR_CURRENT,
+  RETRIEVE_USER_PROJECTS,
+  RETRIEVE_USER_PROJECTS_FAIL,
 } from "./types";
 
 import ProjectDataService from "../services/projectService";
@@ -95,6 +97,22 @@ export const deleteProjects = (id) => async (dispatch) => {
     console.log(err);
     dispatch({
       type: DELETE_PROJECT_FAIL,
+      payload: err.response.data,
+    });
+  }
+};
+
+export const userProjs = (id) => async (dispatch) => {
+  try {
+    const res = await ProjectDataService.projByUser(id);
+
+    dispatch({
+      type: RETRIEVE_USER_PROJECTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: RETRIEVE_USER_PROJECTS_FAIL,
       payload: err.response.data,
     });
   }

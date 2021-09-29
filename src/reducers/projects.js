@@ -5,13 +5,13 @@ import {
   DELETE_PROJECT,
   SET_CURRENT_PROJECT,
   CLEAR_CURRENT,
+  RETRIEVE_USER_PROJECTS,
 } from "../actions/types";
 
 const initialState = {
   project: [],
   current: null,
-  loading: false,
-  error: null,
+  allprojects: [],
 };
 
 function projectReducer(state = initialState, action) {
@@ -21,13 +21,19 @@ function projectReducer(state = initialState, action) {
     case CREATE_PROJECT:
       return {
         ...state,
-        project: [...state.project, payload],
+        allprojects: [...state.project, payload],
+      };
+
+    case RETRIEVE_USER_PROJECTS:
+      return {
+        ...state,
+        project: payload,
       };
 
     case RETRIEVE_PROJECTS:
       return {
         ...state,
-        project: payload,
+        allprojects: payload,
       };
 
     case UPDATE_PROJECT:

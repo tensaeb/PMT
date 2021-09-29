@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  tabs: {
+    padding: theme.spacing(5, 0, 0, 0),
+  },
 }));
 
 const NavBar = ({ onClick }) => {
@@ -42,7 +45,7 @@ const NavBar = ({ onClick }) => {
     <div>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
+        {/* <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -55,15 +58,16 @@ const NavBar = ({ onClick }) => {
           <Typography variant="h6" noWrap>
             Responsive drawer
           </Typography>
-        </Toolbar>
+        </Toolbar> */}
         <Tabs
           value={value}
           onChange={handleChange}
+          className={classes.tabs}
           // aria-label=" simple tabs example"
         >
           <Tab label="Home" component={Link} to="/home/index" />
           <Tab label="Kanban" component={Link} to="/home/kanban" />
-          <Tab label="Calendar" component={Link} to="/home/calendar" />
+          {/* <Tab label="Calendar" component={Link} to="/home/calendar" /> */}
         </Tabs>
       </AppBar>
     </div>

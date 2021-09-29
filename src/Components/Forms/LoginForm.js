@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   alert: {
-    margin: theme.spacing(10, 10, 10, 10),
+    padding: theme.spacing(20, 10, 10, 10),
   },
 }));
 
@@ -54,9 +54,7 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
-      console.log(values);
-      login(values.email, values.email);
-
+      login(values.email, values.password);
     },
   });
 
@@ -68,8 +66,8 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
   }
 
   return (
-    <div id='one'>
-      <div className={classes.paper} id='two'>
+    <div>
+      <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -121,7 +119,6 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
           >
             Sign In
           </Button>
-          
           <Grid container>
             <Grid item xs>
               <Link to="/reset-password" variant="body2">
@@ -134,7 +131,7 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
               </Link>
             </Grid>
             {message && (
-              <Alert icon={false} classname={classes.alert} severity="error">
+              <Alert id="erroralert" icon={false} classname={classes.alert} severity="error">
                 {message}
               </Alert>
             )}
@@ -147,7 +144,7 @@ const LoginForm = ({ message, isLoggedIn, login }) => {
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.Authentication.isLoggedIn,
-  message: state.message.message,
+  message: state.message.detail,
 });
 
 export default connect(mapStateToProps, { login })(LoginForm);

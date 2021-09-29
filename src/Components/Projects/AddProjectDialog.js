@@ -83,7 +83,7 @@ const AddProjectDialog = ({
                 helperText={formik.touched.name && formik.errors.name}
               />
 
-              <FormControl variant="outlined" className={classes.sdm}>
+              <FormControl variant="outlined" className={classes.sdm} >
                 <InputLabel id="demo-simple-select-label">SDM</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -95,7 +95,7 @@ const AddProjectDialog = ({
                   error={formik.touched.sdm && Boolean(formik.errors.sdm)}
                   helperText={formik.touched.sdm && formik.errors.sdm}
                 >
-                  <MenuItem value="AGL">Agile</MenuItem>
+                  <MenuItem value="AGL" id="AGL">Agile</MenuItem>
                   <MenuItem value="WRF">Waterfall</MenuItem>
                   <MenuItem value="INC">Incremental</MenuItem>
                   <MenuItem value="RAD">RAD</MenuItem>
@@ -120,7 +120,7 @@ const AddProjectDialog = ({
                 >
                   {users &&
                     users.map((user) => (
-                      <MenuItem key={user.id} value={user.id}>
+                      <MenuItem key={user.id} value={user.id} id="developer">
                         {user.first_name} {user.last_name}
                       </MenuItem>
                     ))}

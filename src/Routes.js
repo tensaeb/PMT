@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import { BrowserRouter as BRoute, Route, Switch } from "react-router-dom";
+import { Link as SCLink, animateScroll as scroll } from "react-scroll";
 
 import Login from "./Pages/Login";
 import Landingpage from "./Pages/Landingpage";
@@ -14,53 +15,92 @@ import TasksPage from "./Pages/Home/TasksPage";
 import KanbanPage from "./Pages/Home/KanbanPage";
 import CalendarPage from "./Pages/Home/CalendarPage";
 import ProfilePage from "./Pages/ProfilePage";
+import PrivateRoutes from "./Routes/PrivateRoute";
+import PublicRoutes from "./Routes/PublicRoutes";
+import { connect } from "react-redux";
 
-const Routes = () => {
+const Routes = ({ isLoggedIn }) => {
   return (
     <div>
       <BRoute>
         <Switch>
-          <Route path={["/home/profile"]} component={ProfilePage} role="ANY" />
-          <Route path="/home/kanban" component={KanbanPage} />
-          <Route path="/home/kanban" component={KanbanPage} />
-          <Route path="/home/calendar" component={CalendarPage} />
-          <Route path={["/home", "/home/index"]} component={TasksPage} />
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path={["/home/profile"]}
+            component={ProfilePage}
+          />
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path="/home/kanban"
+            component={KanbanPage}
+          />
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path="/home/kanban"
+            component={KanbanPage}
+          />
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path="/home/calendar"
+            component={CalendarPage}
+          />
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path={["/home", "/home/index"]}
+            component={TasksPage}
+          />
         </Switch>
         <Switch>
-          <Route path="/home" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/reset-password" component={ResetPassword} />
-          <Route
+          <PrivateRoutes
+            isLoggedIn={isLoggedIn}
+            path="/home"
+            component={Home}
+          />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            s
+            path="/login"
+            component={Login}
+          />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            path="/register"
+            component={Register}
+          />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            path="/reset-password"
+            component={ResetPassword}
+          />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
             path="/password/reset/confrm/:uid/:token"
             component={ResetPasswordConfirm}
           />
-          <Route path="/activate/:uid/:token" component={Activate} />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            path="/activate/:uid/:token"
+            component={Activate}
+          />
 
-          <Route path="/" component={Landingpage} />
+          <PublicRoutes
+            isLoggedIn={isLoggedIn}
+            exact
+            path="/"
+            component={Landingpage}
+          />
         </Switch>
       </BRoute>
+      <SCLink to="about" />
     </div>
   );
 };
 
-// const PrivateRoute = ({component: Component, ...rest }) => {
-//   return (
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.Authentication.isLoggedIn,
+    currentUser: state.Authentication.currentUser,
+  };
+};
 
-//       // Show the component only when the user is logged in
-//       // Otherwise, redirect the user to /signin page
-//       <Route {...rest} render={props => (
-//           isLogin() ?
-//               <Component {...props} />
-//           : <Redirect to="/signin" />
-//       )} />
-//   );
-// };
-
-// const ProtectedRoute = ({ component: Component, ...rest}) {
-//   // get state from redux
-//   // if user is authorized and roles match with the props in rest then render component
-//   // else render 404 page
-// }
-
-export default Routes;
+export default connect(mapStateToProps, {})(Routes);

@@ -3,7 +3,7 @@ import axios from "axios";
 const API_URL = "https://projmangtool.herokuapp.com/";
 
 class AuthService {
-  login(email, password) {
+  async login(email, password) {
     return axios
       .post(API_URL + "login/", { email, password })
       .then((response) => {
@@ -13,19 +13,19 @@ class AuthService {
         return response.data;
       });
   }
-
-  logout() {
-    localStorage.removeItem("user");
-  }
-
   register(first_name, last_name, email, password) {
-    return axios.post(API_URL + "signup/", {
+    return axios.post(API_URL + "users/", {
       first_name,
       last_name,
       email,
       password,
     });
   }
+
+  logout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("currentUser");
+  };
 }
 
 export default new AuthService();

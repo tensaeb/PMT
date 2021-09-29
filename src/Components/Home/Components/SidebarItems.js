@@ -32,6 +32,9 @@ import AddIcon from "@material-ui/icons/Add";
 import Projects from "../../Projects/Projects";
 import AddProjectDialog from "../../Projects/AddProjectDialog";
 import { logout } from "../../../actions/auth";
+import { Link, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -59,10 +62,28 @@ const useStyles = makeStyles((theme) => ({
   darkmode: {
     margin: theme.spacing(1),
   },
+  avatar: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  },
+  userDet: {
+    padding: theme.spacing(0, 0, 0, 2),
+  },
+  userName: {
+    fontWeight: "900",
+    // fontSize: "15px",
+  },
 }));
 
-const SidebarItems = ({ logout, isAuthenticated }) => {
+const SidebarItems = ({ logout, isLoggedIn, currentUser }) => {
   const classes = useStyles();
+
+  const history = useHistory();
+
+  const route = () => {
+    let path = `/home/profile/`;
+    history.push(path);
+  };
 
   const [Open, setopen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(false);
@@ -79,17 +100,39 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
     setAnchorEl(false);
   };
 
+  if (isLoggedIn === false) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <div>
       <List dense>
         <ListItem>
           <ListItemAvatar>
-            <Avatar>
-              <ImageIcon />
-            </Avatar>
+            <Avatar id="username"
+              alt={
+                currentUser &&
+                currentUser.first_name + " " + currentUser.last_name
+              }
+              src={currentUser && currentUser.img}
+              className={classes.avatar}
+            />
           </ListItemAvatar>
-          <ListItemText primary="Single-line item" secondary="Secondary text" />
-          <ListItemSecondaryAction>
+          <ListItemText
+            className={classes.userDet}
+            primary={
+              <Typography variant="h6" className={classes.userName}>
+                {currentUser &&
+                  currentUser.first_name + " " + currentUser.last_name}
+              </Typography>
+            }
+            secondary={
+              <Typography variant="body2FF">
+                {currentUser && currentUser.role}
+              </Typography>
+            }
+          />
+          {/* <ListItemSecondaryAction>
             <IconButton
               edge="end"
               aria-haspopup="true"
@@ -109,7 +152,7 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
               <MenuItem onClick={handleClose}>My account</MenuItem>
               <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
-          </ListItemSecondaryAction>
+          </ListItemSecondaryAction> */}
         </ListItem>
       </List>
       <Divider />
@@ -117,33 +160,32 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
       {/* completed task and open task */}
 
       <Box display="flex" flexDirection="row" className={classes.box}>
-        <Box flexDirection="column" m={1}>
+        {/* <Box flexDirection="column" m={1}>
           <Typography variant="h6">378</Typography>
           <Typography variant="caption">Completed Tasks</Typography>
         </Box>
         <Box flexDirection="column" m={1}>
           <Typography variant="h6">22</Typography>
           <Typography variant="caption">Open Tasks</Typography>
-        </Box>
+        </Box> */}
       </Box>
 
       {/* Menus */}
 
       <Box display="flex" flexDirection="column" className={classes.menu}>
-        <Typography className={classes.menuButtons} variant="caption">
+        <Typography className={classes.menuButtons} variant="caption" id="menu">
           MENUS
         </Typography>
-        <Button className={classes.menuButtons} fullWidth>
-          Home
+        <Button onClick={route} className={classes.menuButtons} fullWidth>
+          Profile
         </Button>
-        <Button className={classes.menuButtons} fullWidth>
+        {/* <Button className={classes.menuButtons} fullWidth>
           My Task
+        </Button> */}
+
+        <Button onClick={logout} fullWidth className={classes.menuButtons} id="logoutbtn">
+          Logout
         </Button>
-        <StyledBadge color="primary" badgeContent={6}>
-          <Button fullWidth className={classes.menuButtons}>
-            Notification
-          </Button>
-        </StyledBadge>
       </Box>
 
       {/* Projects */}
@@ -159,6 +201,7 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
           style={{ backgroundColor: "transparent" }}
           disableRipple
           onClick={() => HandleClickOpen()}
+          id="addprobtn"
         >
           <IconButton aria-label="add" size="small">
             <AddIcon color="secondary" fontSize="inherit" />
@@ -168,7 +211,7 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
         <AddProjectDialog Open={Open} setopen={setopen} />
       </Box>
 
-      <Box>
+      {/* <Box>
         <FormControl component="fieldset" className={classes.darkmode}>
           <FormControlLabel
             value="start"
@@ -177,13 +220,14 @@ const SidebarItems = ({ logout, isAuthenticated }) => {
             labelPlacement="start"
           />
         </FormControl>
-      </Box>
+      </Box> */}
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  isLoggedIn: state.Authentication.isLoggedIn,
+  currentUser: state.Authentication.currentUser,
 });
 
 export default connect(mapStateToProps, { logout })(SidebarItems);

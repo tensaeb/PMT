@@ -158,7 +158,7 @@ const AddTasks = ({
                 >
                   {projects &&
                     projects.map((proj) => (
-                      <MenuItem value={proj.id ?? ""}>{proj.name}</MenuItem>
+                      <MenuItem value={proj.id ?? ""} id="projects">{proj.name}</MenuItem>
                     ))}
                 </Select>
               </FormControl>
@@ -176,7 +176,7 @@ const AddTasks = ({
                 >
                   {users &&
                     users.map((user) => (
-                      <MenuItem key={user.id} value={user.id ?? ""}>
+                      <MenuItem key={user.id} value={user.id ?? ""} id="developer">
                         {user.first_name} {user.last_name}
                       </MenuItem>
                     ))}
